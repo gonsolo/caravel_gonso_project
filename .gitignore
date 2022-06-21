@@ -6,3 +6,9 @@
 *.lst
 *.vcd
 *.gtkw
+
+caravel
+mgmt_core_wrapper
+sdc
+sdf
+spef
