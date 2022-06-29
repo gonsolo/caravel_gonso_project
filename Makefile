@@ -49,7 +49,8 @@ endif
 all: verify-io_ports-rtl
 e: edit
 edit:
-	vi verilog/rtl/user_proj_example.v
+	#vi verilog/rtl/user_proj_example.v
+	vi verilog/rtl/honzales.v
 # Osnog
 
 # Include Caravel Makefile Targets
