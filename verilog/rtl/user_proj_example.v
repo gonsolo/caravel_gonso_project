@@ -165,10 +165,4 @@ module counter #(
 
 endmodule
 
-module honzales();
-        initial begin
-                $display("honzales starts");
-        end
-endmodule
-
 `default_nettype wire
