@@ -119,7 +119,7 @@ module user_proj_example #(
         .count(count)
     );
 
-    honzales honzo();
+    Honzales honzales();
 
 endmodule
 

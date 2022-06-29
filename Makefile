@@ -45,8 +45,10 @@ else
 endif
 
 # Gonso
-.PHONY: all e edit
-all: verify-io_ports-rtl
+.PHONY: all copy e edit
+all: copy verify-io_ports-rtl
+copy:
+	cp ../../honzales/out/verilog/Testbench.v verilog/rtl/honzales.v
 e: edit
 edit:
 	#vi verilog/rtl/user_proj_example.v
