@@ -119,6 +119,8 @@ module user_proj_example #(
         .count(count)
     );
 
+    honzales honzo();
+
 endmodule
 
 module counter #(
@@ -162,4 +164,11 @@ module counter #(
     end
 
 endmodule
+
+module honzales();
+        initial begin
+                $display("honzales starts");
+        end
+endmodule
+
 `default_nettype wire
