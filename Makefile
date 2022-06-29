@@ -46,6 +46,7 @@ endif
 # Gonso
 .PHONY: all copy e edit
 all: copy verify-io_ports-rtl
+user_proj_example: copy
 copy:
 	cp ../../honzales/out/verilog/Testbench.v verilog/rtl/honzales.v
 e: edit
