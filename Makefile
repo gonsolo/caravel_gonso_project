@@ -44,6 +44,14 @@ else
 	CARAVEL_TAG := $(MPW_TAG)
 endif
 
+# Gonso
+.PHONY: all e edit
+all: verify-io_ports-rtl
+e: edit
+edit:
+	vi verilog/rtl/user_proj_example.v
+# Osnog
+
 # Include Caravel Makefile Targets
 .PHONY: % : check-caravel
 %:
