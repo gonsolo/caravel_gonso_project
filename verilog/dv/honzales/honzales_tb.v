@@ -50,9 +50,25 @@ module honzales_tb;
 		$finish;
 	end
 
+        integer image;
+
 	initial begin
-	    // Observe Output pins [7:0]
+                image = $fopen("image.ppm", "w");
+                $fdisplay(image, "P3");
+                $fdisplay(image, "64 64");
+                $fdisplay(image, "255");
+
+	        // Observe Output pins [7:0]
 		wait(mprj_io_0 == 8'h01);
+
+                // Write a red image after first value is encountered
+                repeat (64) begin
+                        repeat (64) begin
+                                $fwrite(image, "255 0 0 ");
+                        end
+                        $fwrite(image, "\n");
+                end
+
 		wait(mprj_io_0 == 8'h02);
 		wait(mprj_io_0 == 8'h03);
 		wait(mprj_io_0 == 8'h04);
@@ -70,6 +86,9 @@ module honzales_tb;
 		`else
 		    $display("Monitor: Test 1 Mega-Project Honzales (RTL) Passed");
 		`endif
+
+                $fclose(image);
+
 	    $finish;
 	end
 
