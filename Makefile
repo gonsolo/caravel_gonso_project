@@ -56,7 +56,7 @@ e: edit
 edit:
 	#vi verilog/rtl/user_proj_example.v
 	#vi verilog/rtl/honzales.v
-	vi verilog/dv/honzales/honzales.c
+	vi verilog/dv/honzales/honzales.c verilog/rtl/user_proj_example.v
 # Osnog
 
 # Include Caravel Makefile Targets

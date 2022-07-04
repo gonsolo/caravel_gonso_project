@@ -104,22 +104,26 @@ module user_proj_example #(
     assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
     assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    counter #(
-        .BITS(BITS)
-    ) counter(
-        .clk(clk),
-        .reset(rst),
-        .ready(wbs_ack_o),
-        .valid(valid),
-        .rdata(rdata),
-        .wdata(wbs_dat_i),
-        .wstrb(wstrb),
-        .la_write(la_write),
-        .la_input(la_data_in[63:32]),
-        .count(count)
-    );
+    //counter #(
+    //    .BITS(BITS)
+    //) counter(
+    //    .clk(clk),
+    //    .reset(rst),
+    //    .ready(wbs_ack_o),
+    //    .valid(valid),
+    //    .rdata(rdata),
+    //    .wdata(wbs_dat_i),
+    //    .wstrb(wstrb),
+    //    .la_write(la_write),
+    //    .la_input(la_data_in[63:32]),
+    //    .count(count)
+    //);
 
-    Honzales honzales();
+    Honzales honzales(
+        .clock(clk),
+        .reset(rst),
+        .io_output(count) 
+    );
 
 endmodule
 
