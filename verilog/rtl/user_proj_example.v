@@ -122,7 +122,7 @@ module user_proj_example #(
     Honzales honzales(
         .clock(clk),
         .reset(rst),
-        .io_output(count) 
+        .io_output(count)
     );
 
 endmodule
