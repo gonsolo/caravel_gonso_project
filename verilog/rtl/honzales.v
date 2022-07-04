@@ -76,6 +76,6 @@ module Testbench(
     .io_output(honzales_io_output)
   );
   assign io_output = honzales_io_output; // @[Testbench.scala 15:15]
-  assign honzales_clock = clock; // @[Testbench.scala 16:18]
+  assign honzales_clock = clock;
   assign honzales_reset = reset;
 endmodule
