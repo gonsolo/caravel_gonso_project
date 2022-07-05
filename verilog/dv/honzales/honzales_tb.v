@@ -15,6 +15,9 @@ module honzales_tb;
 	wire [37:0] mprj_io;
 	wire [7:0] mprj_io_0;
 
+        // Set input to 1 for counting, 0 to return 0
+        assign mprj_io[32] = 1'b1;
+
 	assign mprj_io_0 = mprj_io[7:0];
 	// assign mprj_io_0 = {mprj_io[8:4],mprj_io[2:0]};
 

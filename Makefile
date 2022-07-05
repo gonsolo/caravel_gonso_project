@@ -56,7 +56,7 @@ copy:
 	cp ../../honzales/out/verilog/Testbench.v verilog/rtl/honzales.v
 e: edit
 edit:
-	vi verilog/rtl/user_proj_example.v verilog/dv/honzales/honzales.c
+	vi verilog/rtl/user_proj_example.v verilog/dv/honzales/honzales.c verilog/dv/honzales/honzales_tb.v
 # Gonso
 
 # Include Caravel Makefile Targets

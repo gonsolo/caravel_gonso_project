@@ -83,6 +83,9 @@ module user_proj_example #(
     wire [3:0] wstrb;
     wire [31:0] la_write;
 
+    wire honzales_input;
+    assign honzales_input = io_in[32];
+
     // WB MI A
     assign valid = wbs_cyc_i && wbs_stb_i; 
     assign wstrb = wbs_sel_i & {4{wbs_we_i}};
@@ -107,6 +110,7 @@ module user_proj_example #(
     Honzales honzales(
         .clock(clk),
         .reset(rst),
+        .io_input(honzales_input),
         .io_output(count)
     );
 
