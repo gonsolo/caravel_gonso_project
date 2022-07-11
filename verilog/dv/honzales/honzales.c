@@ -23,7 +23,7 @@ void main()
 	reg_mprj_io_7 =  GPIO_MODE_USER_STD_OUTPUT;
 
         // Configure io as input
-	reg_mprj_io_33 =  GPIO_MODE_USER_STD_INPUT_PULLDOWN;
+	reg_mprj_io_32 =  GPIO_MODE_USER_STD_INPUT_NOPULL;
 
 	/* Apply configuration */
 	reg_mprj_xfer = 1;
