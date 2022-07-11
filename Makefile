@@ -48,7 +48,7 @@ endif
 .PHONY: all copy cv copy_and_verify cs copy_and_synthesize e edit
 all: copy_and_verify
 cv: copy_and_verify
-copy_and_verify: copy verify-io_ports-rtl
+copy_and_verify: copy verify-honzales-rtl
 cs: copy_and_synthesize
 copy_and_synthesize: copy user_proj_example
 copy:
