@@ -121,6 +121,7 @@ module honzales_tb;
 
 	always @(mprj_io) begin
 		#1 $display("MPRJ-IO state = %b ", mprj_io[7:0]);
+		#1 $display("io 8 = %b ", mprj_io[8]);
 	end
 
 	wire flash_csb;

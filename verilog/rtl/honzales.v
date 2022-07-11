@@ -1,16 +1,15 @@
 module Honzales(
-  input         clock,
-  input         reset,
-  input         io_input,
-  output [31:0] io_output
+  input        clock,
+  input        reset,
+  input        io_input,
+  output [7:0] io_output
 );
 `ifdef RANDOMIZE_REG_INIT
   reg [31:0] _RAND_0;
 `endif // RANDOMIZE_REG_INIT
   reg [7:0] counterValue; // @[Counter.scala 62:40]
   wire [7:0] _wrap_value_T_1 = counterValue + 8'h1; // @[Counter.scala 78:24]
-  wire [7:0] _io_output_T = io_input ? counterValue : 8'h0; // @[Honzales.scala 15:19]
-  assign io_output = {{24'd0}, _io_output_T}; // @[Honzales.scala 15:13]
+  assign io_output = io_input ? counterValue : 8'h0; // @[Honzales.scala 15:19]
   always @(posedge clock) begin
     if (reset) begin // @[Counter.scala 62:40]
       counterValue <= 8'h0; // @[Counter.scala 62:40]
@@ -65,15 +64,15 @@ end // initial
 `endif // SYNTHESIS
 endmodule
 module Testbench(
-  input         clock,
-  input         reset,
-  input         io_input,
-  output [31:0] io_output
+  input        clock,
+  input        reset,
+  input        io_input,
+  output [7:0] io_output
 );
   wire  honzales_clock; // @[Testbench.scala 14:24]
   wire  honzales_reset; // @[Testbench.scala 14:24]
   wire  honzales_io_input; // @[Testbench.scala 14:24]
-  wire [31:0] honzales_io_output; // @[Testbench.scala 14:24]
+  wire [7:0] honzales_io_output; // @[Testbench.scala 14:24]
   Honzales honzales ( // @[Testbench.scala 14:24]
     .clock(honzales_clock),
     .reset(honzales_reset),

@@ -77,7 +77,8 @@ module user_proj_example #(
 
     wire [31:0] rdata; 
     wire [31:0] wdata;
-    wire [BITS-1:0] count;
+    //wire [BITS-1:0] count;
+    wire [7:0] count;
 
     wire valid;
     wire [3:0] wstrb;
@@ -93,7 +94,9 @@ module user_proj_example #(
     assign wdata = wbs_dat_i;
 
     // IO
-    assign io_out = count;
+    assign io_out[8] = wb_clk_i;
+    assign io_out[7:0] = count;
+
     assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
 
     // IRQ
@@ -113,6 +116,7 @@ module user_proj_example #(
         .io_input(honzales_input),
         .io_output(count)
     );
+
 
 endmodule
 
