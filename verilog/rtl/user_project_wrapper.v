@@ -118,6 +118,37 @@ user_proj_example mprj (
     .irq(user_irq)
 );
 
+//wb_buttons_leds wb_buttons_leds (
+//    `ifdef USE_POWER_PINS
+//	.vdda1(vdda1),	// User area 1 3.3V power
+//	.vdda2(vdda2),	// User area 2 3.3V power
+//	.vssa1(vssa1),	// User area 1 analog ground
+//	.vssa2(vssa2),	// User area 2 analog ground
+//	.vccd1(vccd1),	// User area 1 1.8V power
+//	.vccd2(vccd2),	// User area 2 1.8V power
+//	.vssd1(vssd1),	// User area 1 digital ground
+//	.vssd2(vssd2),	// User area 2 digital ground
+//    `endif
+//
+//    // clock & reset
+//    .clk(wb_clk_i),
+//    .reset(wb_rst_i),
+//
+//    // wishbone
+//    .i_wb_cyc   (wbs_cyc_i),
+//    .i_wb_stb   (wbs_stb_i),
+//    .i_wb_we    (wbs_we_i),
+//    .i_wb_addr  (wbs_adr_i),
+//    .i_wb_data  (wbs_dat_i),
+//    .o_wb_ack   (wbs_ack_o),
+//    .o_wb_data  (wbs_dat_o),
+//
+//    // buttons & leds
+//    .buttons    (io_in[9:7]),
+//    .leds       (io_out[17:10]),
+//    .led_enb    (io_oeb[17:10])
+//);
+
 endmodule	// user_project_wrapper
 
 `default_nettype wire

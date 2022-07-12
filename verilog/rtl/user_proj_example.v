@@ -94,7 +94,12 @@ module user_proj_example #(
     assign wdata = wbs_dat_i;
 
     // IO
-    assign io_out[8] = wb_clk_i;
+    //assign io_out[8] = wb_clk_i;
+    assign io_out[8] = wbs_cyc_i;
+    assign wbs_ack_o = 1'b0;
+
+
+
     assign io_out[7:0] = count;
 
     assign io_oeb = {(`MPRJ_IO_PADS-1){rst}};
