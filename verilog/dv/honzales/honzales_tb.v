@@ -57,20 +57,20 @@ module honzales_tb;
 
 	initial begin
                 image = $fopen("image.ppm", "w");
-                $fdisplay(image, "P3");
-                $fdisplay(image, "64 64");
-                $fdisplay(image, "255");
+                //$fdisplay(image, "P3");
+                //$fdisplay(image, "64 64");
+                //$fdisplay(image, "255");
 
 	        // Observe Output pins [7:0]
 		wait(mprj_io_0 == 8'h01);
 
                 // Write a red image after first value is encountered
-                repeat (64) begin
-                        repeat (64) begin
-                                $fwrite(image, "255 0 0 ");
-                        end
-                        $fwrite(image, "\n");
-                end
+                //repeat (64) begin
+                //        repeat (64) begin
+                //                $fwrite(image, "255 0 0 ");
+                //        end
+                //        $fwrite(image, "\n");
+                //end
 
 		wait(mprj_io_0 == 8'h02);
 		wait(mprj_io_0 == 8'h03);
