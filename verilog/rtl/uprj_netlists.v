@@ -23,8 +23,10 @@
     `include "gl/user_project_wrapper.v"
     `include "gl/user_proj_example.v"
     `include "gl/wb_buttons_leds.v"
+    `include "gl/counter.v"
 `else
     `include "user_project_wrapper.v"
     `include "user_proj_example.v"
     `include "wb_buttons_leds.v"
+    `include "counter.v"
 `endif
