@@ -22,11 +22,16 @@
     `default_nettype wire
     `include "gl/user_project_wrapper.v"
     `include "gl/user_proj_example.v"
-    `include "gl/wb_buttons_leds.v"
-    `include "gl/counter.v"
 `else
     `include "user_project_wrapper.v"
     `include "user_proj_example.v"
-    `include "wb_buttons_leds.v"
-    `include "counter.v"
+    `include "wishbone_1mst_to_4slv.v"
+    `include "prescaler.v"
+    `include "simple_fifo.v"
+    `include "nec_ir_receiver.v"
+    `include "pseudorandom.v"
+    `include "step_motor_controller.v"
+    `include "string_led_controller.v"
+    `include "generic_sram_1rw1r.v"
+    `include "inferred_sram_1rw1r.v"
 `endif
