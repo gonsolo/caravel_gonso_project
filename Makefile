@@ -45,7 +45,7 @@ else
 endif
 
 # Gonso
-.PHONY: all copy cv copy_and_verify cs copy_and_synthesize e edit show
+.PHONY: all copy cv copy_and_verify cs copy_and_synthesize ec edit_c et edit_t ev edit_verilog show
 #all: copy_and_verify
 all: verify-string_led_controller-rtl
 cv: copy_and_verify
@@ -56,9 +56,15 @@ cs: copy_and_synthesize
 copy_and_synthesize: copy user_proj_example
 copy:
 	cp ../../honzales/out/verilog/Testbench.v verilog/rtl/honzales.v
-e: edit
-edit:
-	vi verilog/rtl/user_proj_example.v verilog/dv/honzales/honzales.c verilog/dv/honzales/honzales_tb.v
+ec: edit_c
+edit_c:
+	vi verilog/dv/honzales/honzales.c
+et: edit_t
+edit_t:
+	vi verilog/dv/honzales/honzales_tb.v
+ev: edit_verilog
+edit_verilog:
+	vi verilog/rtl/user_proj_example.v
 # Gonso
 
 # Include Caravel Makefile Targets
