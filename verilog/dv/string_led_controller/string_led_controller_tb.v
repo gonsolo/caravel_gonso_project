@@ -57,7 +57,7 @@ module string_led_controller_tb;
 
     // Repeat cycles of 1000 clock edges as needed to complete testbench
     //repeat (7000) begin
-    repeat (43) begin
+    repeat (40) begin
       repeat (1000) @(posedge clock);
       // $display("+1000 cycles");
     end

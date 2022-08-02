@@ -95,10 +95,10 @@ void main() {
   reg_mprj_led_control    = 0x80000000;
   
   // Wait end of step moving
-  int data;
-  do {
-     data = reg_mprj_led_control;
-  } while ((data & 0x40000000) == 0x40000000 );
+  //int data;
+  //do {
+  //   data = reg_mprj_led_control;
+  //} while ((data & 0x40000000) == 0x40000000 );
 
   // Flag end of the test
   reg_mprj_datal = 0xAB610000;
