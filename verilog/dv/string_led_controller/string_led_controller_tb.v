@@ -75,6 +75,7 @@ module string_led_controller_tb;
 
     wait(checkbits == 16'hAB60);
     $display("Monitor: MPRJ-Logic WB Started");
+
     wait (checkbits == 16'hAB61);
     if (errorbits == 16'h0000) begin
       `ifdef GL

@@ -83,16 +83,16 @@ void main() {
   reg_mprj_datal = 0xAB600000;
 
   // Configure the controller
-  reg_mprj_led_multiplier = 0x00000001;
-  reg_mprj_led_divider    = 0x0000000A;  
-  reg_mprj_led_config     = 0x80000000;
-  reg_mprj_led_data_0     = 0x000000AF;
-  reg_mprj_led_data_1     = 0x0000005F;
-  reg_mprj_led_data_2     = 0x000000AA;
-  reg_mprj_led_data_3     = 0x000000AA;
-  
+//  reg_mprj_led_multiplier = 0x00000001;
+//  reg_mprj_led_divider    = 0x0000000A;  
+//  reg_mprj_led_config     = 0x80000000;
+//  reg_mprj_led_data_0     = 0x000000AF;
+//  reg_mprj_led_data_1     = 0x0000005F;
+//  reg_mprj_led_data_2     = 0x000000AA;
+//  reg_mprj_led_data_3     = 0x000000AA;
+//  
   // Start the motor
-  reg_mprj_led_control    = 0x80000000;
+  //reg_mprj_led_control    = 0x80000000;
   
   // Wait end of step moving
   //int data;
