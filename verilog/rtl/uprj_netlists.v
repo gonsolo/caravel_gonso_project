@@ -25,7 +25,6 @@
 `else
     `include "user_project_wrapper.v"
     `include "user_proj_example.v"
-    `include "wishbone_1mst_to_4slv.v"
     `include "prescaler.v"
     `include "simple_fifo.v"
     `include "string_led_controller.v"
