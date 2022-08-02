@@ -27,6 +27,7 @@
     `include "user_proj_example.v"
     `include "prescaler.v"
     `include "simple_fifo.v"
+    `include "honzales.v"
     `include "string_led_controller.v"
     `include "generic_sram_1rw1r.v"
     `include "inferred_sram_1rw1r.v"

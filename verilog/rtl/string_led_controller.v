@@ -71,19 +71,6 @@ module string_led_controller #(
   wire [ASIZE-1:0] addr1           ;
   wire [7:0]       rdata1          ;
 
-
-
-//  prescaler #(
-//    .BITS(PSIZE)
-//  ) i_prescaler (
-//    .rst_n      (rst_n         ),
-//    .clk        (clk           ),
-//    .clear_n    (controller_en ),
-//    .gonso      (gonso),
-//    .gonso_plus (gonso_plus),
-//    .tick       (tick          )
-//  );
-
   bit_generator i_bit_generator (
     .rst_n      (rst_n         ),
     .clk        (clk           ),
@@ -525,8 +512,19 @@ module string_led_registers #(
   assign wbs_ack_o = ready;
   assign we_n      = 1'b0;
 
+
+  Honzales honzales (
+    //.clock(clk),
+    //.reset(rst_n),
+    .io_input(gonso),
+    .io_output(gonso_plus_wire)
+  );
+
+  wire [PSIZE-1:0] gonso_plus_wire;
+
   always @(posedge clk) begin
-        gonso_plus <= gonso + 1'b1;
+        //gonso_plus <= gonso + 1'b1;
+        gonso_plus <= gonso_plus_wire;
   end
 
   always @(negedge rst_n or posedge clk) begin

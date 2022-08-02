@@ -3,6 +3,7 @@
 -v $(USER_PROJECT_VERILOG)/rtl/user_proj_example.v
 -v $(USER_PROJECT_VERILOG)/rtl/prescaler.v
 -v $(USER_PROJECT_VERILOG)/rtl/simple_fifo.v
+-v $(USER_PROJECT_VERILOG)/rtl/honzales.v
 -v $(USER_PROJECT_VERILOG)/rtl/string_led_controller.v
 -v $(USER_PROJECT_VERILOG)/rtl/generic_sram_1rw1r.v
 -v $(USER_PROJECT_VERILOG)/rtl/inferred_sram_1rw1r.v

@@ -46,10 +46,11 @@ endif
 
 # Gonso
 .PHONY: all copy cv copy_and_verify cs copy_and_synthesize ec edit_c et edit_t ev edit_verilog show
-#all: copy_and_verify
-all: verify-string_led_controller-rtl
+all: copy_and_verify
+#all: verify-string_led_controller-rtl
 cv: copy_and_verify
-copy_and_verify: copy verify-honzales-rtl show
+#copy_and_verify: copy verify-honzales-rtl show
+copy_and_verify: copy verify-string_led_controller-rtl show
 show:
 	#gimp verilog/dv/honzales/image.ppm
 cs: copy_and_synthesize
