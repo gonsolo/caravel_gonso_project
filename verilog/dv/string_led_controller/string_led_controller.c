@@ -100,8 +100,9 @@ void main() {
   //   data = reg_mprj_led_control;
   //} while ((data & 0x40000000) == 0x40000000 );
 
-  reg_mprj_gonso = 0x00000000;
-  reg_mprj_gonso = 0x00000001;
+  reg_mprj_gonso_plus   = 0x00000000;
+  reg_mprj_gonso        = 0x00000001;
+
   int data;
   do {
         data = reg_mprj_gonso_plus;
