@@ -608,7 +608,7 @@ module string_led_registers #(
           end else begin
             cs_n <= 1'b1;
           end
-		  
+
 		  addr[ASIZE-1:0] <= wbs_adr_i[ASIZE+1:2];
           wdata[7:0]      <= wbs_dat_i[7:0];
 
@@ -637,3 +637,4 @@ module string_led_registers #(
   end
 
 endmodule
+

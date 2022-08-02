@@ -88,6 +88,10 @@ module string_led_controller_tb;
         $display("Monitor: Mega-Project WB (RTL) Failed [0x%h errors]", errorbits);
       `endif
     end
+
+    wait (checkbits == 16'hAB62);
+    $display("Checking again ok");
+
     $finish;
   end
 

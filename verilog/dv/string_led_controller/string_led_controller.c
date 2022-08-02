@@ -102,4 +102,7 @@ void main() {
 
   // Flag end of the test
   reg_mprj_datal = 0xAB610000;
+
+  // Test setting again
+  reg_mprj_datal = 0xAB620000;
 }
