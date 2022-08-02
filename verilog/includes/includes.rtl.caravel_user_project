@@ -4,9 +4,6 @@
 -v $(USER_PROJECT_VERILOG)/rtl/wishbone_1mst_to_4slv.v
 -v $(USER_PROJECT_VERILOG)/rtl/prescaler.v
 -v $(USER_PROJECT_VERILOG)/rtl/simple_fifo.v
--v $(USER_PROJECT_VERILOG)/rtl/nec_ir_receiver.v
--v $(USER_PROJECT_VERILOG)/rtl/pseudorandom.v
--v $(USER_PROJECT_VERILOG)/rtl/step_motor_controller.v
 -v $(USER_PROJECT_VERILOG)/rtl/string_led_controller.v
 -v $(USER_PROJECT_VERILOG)/rtl/generic_sram_1rw1r.v
 -v $(USER_PROJECT_VERILOG)/rtl/inferred_sram_1rw1r.v
