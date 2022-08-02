@@ -90,7 +90,10 @@ module string_led_controller_tb;
     end
 
     wait (checkbits == 16'hAB62);
-    $display("Checking again ok");
+    $display("Checking AB62 ok");
+
+    wait (checkbits == 16'hAB63);
+    $display("Checking AB63 ok");
 
     $finish;
   end

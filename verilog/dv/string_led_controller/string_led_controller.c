@@ -105,4 +105,5 @@ void main() {
 
   // Test setting again
   reg_mprj_datal = 0xAB620000;
+  reg_mprj_datal = 0xAB630000;
 }
