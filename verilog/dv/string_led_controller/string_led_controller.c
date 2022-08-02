@@ -28,8 +28,8 @@
 */
 
 #define reg_mprj_led_config       (*(volatile uint32_t*)0x30030000)
-#define reg_mprj_led_multiplier   (*(volatile uint32_t*)0x30030004)
-#define reg_mprj_led_divider      (*(volatile uint32_t*)0x30030008)
+#define reg_mprj_gonso            (*(volatile uint32_t*)0x30030004)
+#define reg_mprj_gonso_plus       (*(volatile uint32_t*)0x30030008)
 #define reg_mprj_led_control      (*(volatile uint32_t*)0x3003000C)
 #define reg_mprj_led_data_0       (*(volatile uint32_t*)0x30031000)
 #define reg_mprj_led_data_1       (*(volatile uint32_t*)0x30031004)
@@ -99,6 +99,13 @@ void main() {
   //do {
   //   data = reg_mprj_led_control;
   //} while ((data & 0x40000000) == 0x40000000 );
+
+  reg_mprj_gonso = 0x00000000;
+  reg_mprj_gonso = 0x00000001;
+  int data;
+  do {
+        data = reg_mprj_gonso_plus;
+  } while (data != 0x00000002);
 
   // Flag end of the test
   reg_mprj_datal = 0xAB610000;

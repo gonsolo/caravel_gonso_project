@@ -49,8 +49,8 @@ module string_led_controller #(
 );
 
   wire             controller_en   ;
-  wire [PSIZE-1:0] multiplier      ;
-  wire [PSIZE-1:0] divider         ;
+  wire [PSIZE-1:0] gonso;
+  wire [PSIZE-1:0] gonso_plus;
   wire             tick            ;
   wire             valid           ;
   wire             polarity        ;
@@ -73,16 +73,16 @@ module string_led_controller #(
 
 
 
-  prescaler #(
-    .BITS(PSIZE)
-  ) i_prescaler (
-    .rst_n      (rst_n         ),
-    .clk        (clk           ),
-    .clear_n    (controller_en ),
-    .multiplier (multiplier    ),
-    .divider    (divider       ),
-    .tick       (tick          )
-  );
+//  prescaler #(
+//    .BITS(PSIZE)
+//  ) i_prescaler (
+//    .rst_n      (rst_n         ),
+//    .clk        (clk           ),
+//    .clear_n    (controller_en ),
+//    .gonso      (gonso),
+//    .gonso_plus (gonso_plus),
+//    .tick       (tick          )
+//  );
 
   bit_generator i_bit_generator (
     .rst_n      (rst_n         ),
@@ -152,8 +152,8 @@ module string_led_controller #(
     .rst_n           (rst_n        ),
     .clk             (clk          ),
     .controller_en   (controller_en),
-    .multiplier      (multiplier   ),
-    .divider         (divider      ),
+    .gonso           (gonso),
+    .gonso_plus      (gonso_plus),
     .polarity        (polarity     ),
     .w_count         (w_count      ),
     .w_first         (w_first      ),
@@ -470,8 +470,8 @@ module string_led_registers #(
 
   // Configuration
   output reg              controller_en   , // Controller enable (active high)
-  output reg  [PSIZE-1:0] multiplier      , // frequency multiplier
-  output reg  [PSIZE-1:0] divider         , // frequency divider
+  output reg  [PSIZE-1:0] gonso,            // gonso
+  output reg  [PSIZE-1:0] gonso_plus      , // gonso plus
   output reg              polarity        , // Polarity of output signal
 
   // Sequencer
@@ -505,8 +505,8 @@ module string_led_registers #(
 
   localparam
     config_reg_addr     = 3'b00,
-    multiplier_reg_addr = 3'b01,
-    divider_reg_addr    = 3'b10,
+    gonso_reg_addr      = 3'b01,
+    gonso_plus_reg_addr = 3'b10,
     ctrl_reg_addr       = 3'b11;
 
   wire        valid;
@@ -525,6 +525,10 @@ module string_led_registers #(
   assign wbs_ack_o = ready;
   assign we_n      = 1'b0;
 
+  always @(posedge clk) begin
+        gonso_plus <= gonso + 1'b1;
+  end
+
   always @(negedge rst_n or posedge clk) begin
     if (rst_n == 1'b0) begin
       cs_n          <= 1'b1;
@@ -535,8 +539,8 @@ module string_led_registers #(
       controller_en <= 1'b0;
       irq_en        <= 1'b0;
       polarity      <= 1'b0;
-      multiplier    <= {(PSIZE){1'b0}};
-      divider       <= {(PSIZE){1'b0}};
+      gonso         <= {(PSIZE){1'b0}};
+      gonso_plus    <= {(PSIZE){1'b0}};
       w_count       <= 4'b0000;
       w_first       <= {(ASIZE){1'b0}};
       w_last        <= {(ASIZE){1'b0}};
@@ -555,21 +559,22 @@ module string_led_registers #(
               wbs_dat_o[29]   <= polarity     ; if (wstrb[29]) polarity      <= wbs_dat_i[29];
               wbs_dat_o[28:0] <= {(29){1'b0}};
             end
-            multiplier_reg_addr : begin
+            gonso_reg_addr : begin
               for (i = 0; i < 32; i = i + 1) begin
                 if (i >= PSIZE) begin
                   wbs_dat_o[i] <= 1'b0 ;
                 end else begin
-                  wbs_dat_o[i] <= multiplier[i] ; if (wstrb[i]) multiplier[i] <= wbs_dat_i[i];
+                  wbs_dat_o[i] <= gonso[i] ; if (wstrb[i]) gonso[i] <= wbs_dat_i[i];
+
                 end
               end
             end
-            divider_reg_addr : begin
+            gonso_plus_reg_addr : begin
               for (i = 0; i < 32; i = i + 1) begin
                 if (i >= PSIZE) begin
                   wbs_dat_o[i] <= 1'b0 ;
                 end else begin
-                  wbs_dat_o[i] <= divider[i] ; if (wstrb[i]) divider[i] <= wbs_dat_i[i];
+                  wbs_dat_o[i] <= gonso_plus[i] ; if (wstrb[i]) gonso_plus[i] <= wbs_dat_i[i];
                 end
               end
             end
