@@ -86,7 +86,8 @@ install:
 # Install DV setup
 .PHONY: simenv
 simenv:
-	docker pull efabless/dv:latest
+	# Gonso: Do not try to pull every simulation run
+	#docker pull efabless/dv:latest
 
 .PHONY: setup
 setup: install check-env install_mcw openlane pdk-with-volare
