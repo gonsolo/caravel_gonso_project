@@ -58,13 +58,15 @@ copy:
 	cp ../../honzales/out/verilog/Testbench.v verilog/rtl/honzales.v
 ec: edit_c
 edit_c:
-	vi verilog/dv/honzales/honzales.c
+	#vi verilog/dv/honzales/honzales.c
+	vi verilog/dv/string_led_controller/string_led_controller.c
 et: edit_t
 edit_t:
-	vi verilog/dv/honzales/honzales_tb.v
+	#vi verilog/dv/honzales/honzales_tb.v
+	vi verilog/dv/string_led_controller/string_led_controller_tb.v
 ev: edit_verilog
 edit_verilog:
-	vi verilog/rtl/user_proj_example.v
+	vi verilog/rtl/string_led_controller.v
 # Gonso
 
 # Include Caravel Makefile Targets
