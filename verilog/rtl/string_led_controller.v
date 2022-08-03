@@ -514,8 +514,8 @@ module string_led_registers #(
 
 
   Honzales honzales (
-    //.clock(clk),
-    //.reset(rst_n),
+    .clock(clk),
+    .reset(rst_n),
     .io_input(gonso),
     .io_output(gonso_plus_wire)
   );
