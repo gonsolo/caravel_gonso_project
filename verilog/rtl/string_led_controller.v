@@ -44,8 +44,13 @@ module string_led_controller #(
   output wire        irq       , // Interrupt
 
   // Output serial
-  output wire        sout        // Serial out
+  //output wire        sout        // Serial out
 
+  // Pixel output
+  output wire [7:0]     color_out,
+  output wire           pixel_write_out
+  //output wire [5:0]     pixel_x_out,
+  //output wire [5:0]     pixel_y_out,
 );
 
   wire             controller_en   ;
@@ -70,18 +75,6 @@ module string_led_controller #(
   wire             cs1_n           ;
   wire [ASIZE-1:0] addr1           ;
   wire [7:0]       rdata1          ;
-
-  bit_generator i_bit_generator (
-    .rst_n      (rst_n         ),
-    .clk        (clk           ),
-    .clear_n    (controller_en ),
-    .tick       (tick          ),
-    .polarity   (polarity      ),
-    .bit_value  (bit_value     ),
-    .valid      (valid         ),
-    .ready      (ready         ),
-    .sout       (sout          )
-  );
 
   string_led_sequencer #(
     .ASIZE (ASIZE)
@@ -132,6 +125,10 @@ module string_led_controller #(
     .rdata1   (rdata1)
   );
 
+  wire [7:0]     color_out_blabla;
+
+  //assign color_out = 8'h80;
+
   string_led_registers #(
     .ASIZE(ASIZE),
     .PSIZE(PSIZE)
@@ -160,83 +157,13 @@ module string_led_controller #(
     .we_n            (we0_n        ),
     .addr            (addr0        ),
     .wdata           (wdata0       ),
-    .rdata           (rdata0       )
+    .rdata           (rdata0       ),
+    .color_out          (color_out_blabla),
+    .pixel_write_out    (pixel_write_out)
   );
 
 endmodule
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Bit generator
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-module bit_generator (
-  input  wire  rst_n      , // Asynchronous reset (active low)
-  input  wire  clk        , // Clock (rising edge)
-  input  wire  clear_n    , // Synchronous reset (active low)
-  input  wire  tick       , // 50ms tick input
-
-  input  wire  polarity   , // Polarity of output signal
-
-  input  wire  bit_value  , // Bit value
-  input  wire  valid      , // Valid bit value (active high)
-  output reg   ready      , // Serial output
-
-  output reg   sout         // Serial output
-);
-
-  localparam val_p  = 5'b11000; //24
-  localparam val_1  = 5'b10000; //16
-  localparam val_0  = 5'b01000; // 8
-
-  reg [4:0]  count;
-  reg        dbit ;
-  reg        polar;
-
-  always @(negedge rst_n or posedge clk) begin
-    if (rst_n == 1'b0) begin
-      count <= val_p;
-      ready <= 1'b0;
-      dbit  <= 1'b0;
-      polar <= 1'b0;
-      sout  <= 1'b0;
-    end else begin
-
-      if (clear_n == 1'b0) begin
-        count <= val_p;
-        ready <= 1'b0;
-        dbit  <= 1'b0;
-        polar <= 1'b0;
-        sout  <= 1'b0;
-      end else begin
-
-        if (tick == 1'b1) begin
-          if (count[4:3] == 2'b11) begin
-            if (valid == 1'b1) begin
-              count <= 5'b00000;
-              dbit  <= bit_value;
-              polar <= polarity;
-            end
-          end else begin
-            count <= count + 1'b1;
-          end
-        end
-
-        if ((tick == 1'b1) && (count[4:3] == 2'b11) && (valid == 1'b1)) begin
-          ready <= 1'b1;
-        end else begin
-          ready <= 1'b0;
-        end
-
-        if (((dbit == 1'b0) && ((count[4] == 1'b1) || (count[3] == 1'b1))) ||
-            ((dbit == 1'b1) &&  (count[4] == 1'b1)                       ) ) begin
-          sout <= polar;
-        end else begin
-          sout <= ~polar;
-        end
-      end
-    end
-  end
-
-endmodule
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // String LED sequencer
@@ -486,8 +413,10 @@ module string_led_registers #(
   output wire             we_n            , // Write enable (active low)
   output reg  [ASIZE-1:0] addr            , // Adress bus
   output reg  [7:0]       wdata           , // Data bus (write)
-  input  wire [7:0]       rdata             // Data bus (read)
+  input  wire [7:0]       rdata           ,  // Data bus (read)
 
+  output reg [7:0]      color_out,
+  output reg            pixel_write_out
  );
 
   localparam
@@ -520,11 +449,15 @@ module string_led_registers #(
     .io_output(gonso_plus_wire)
   );
 
-  wire [PSIZE-1:0] gonso_plus_wire;
+  wire [PSIZE-1:0]      gonso_plus_wire;
 
   always @(posedge clk) begin
-        //gonso_plus <= gonso + 1'b1;
         gonso_plus <= gonso_plus_wire;
+
+        color_out <= 8'h00;
+        //pixel_x_out <= 5'h0;
+        //pixel_y_out <= 5'h0;
+        pixel_write_out <= 1'b1;
   end
 
   always @(negedge rst_n or posedge clk) begin

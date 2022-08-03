@@ -31,15 +31,28 @@ module string_led_controller_tb;
   wire gpio;
   wire [37:0] mprj_io;
   wire [15:0] checkbits;
-  wire [15:0] errorbits;
+  //wire [15:0] errorbits;
   
+  wire [7:0]    color;
+  //wire [5:0]    pixel_x;
+  //wire [5:0]    pixel_y;
+  wire          pixel_write;
+
   reg [7:0]  cmd_addr;
   reg [7:0]  cmd_data;
 
   assign checkbits = mprj_io[31:16];
-  assign errorbits = mprj_io[15:0];
+  //assign errorbits = mprj_io[15:0];
   
+  assign color = mprj_io[7:0];
+  //assign pixel_x = mprj_io[13:8]
+  //assign pixel_y = mprj_io[19:14]
+  assign pixel_write = mprj_io[8];
+
   assign (pull1,pull0)  mprj_io[37:0] = 38'b11111111111111111111111111111111111111;
+  //assign (pull1,pull0)  mprj_io[37:8] = 30'b111111111111111111111111111111;
+  //assign (pull1,pull0)  mprj_io[7:0] = 8'h80;
+  //assign color = 8'h00;
 
   // External clock is used by default.  Make this artificially fast for the
   // simulation.  Normally this would be a slow clock and the digital PLL
@@ -71,25 +84,48 @@ module string_led_controller_tb;
     $finish;
   end
 
+  integer image;
+
   initial begin
 
     wait(checkbits == 16'hAB60);
-    $display("Monitor: MPRJ-Logic WB Started");
+    $display("Starting");
+
+    //if (pixel_write == 1'b1) begin
+    //    $display("Writing image");
+    //    image = $fopen("image.ppm", "w");
+    //    $fdisplay(image, "P3");
+    //    $fdisplay(image, "64 64");
+    //    $fdisplay(image, "255");
+
+    //    // Write a red image after first value is encountered
+    //    repeat (64) begin
+    //            repeat (64) begin
+    //                    $fdisplay(image, color);
+    //                    $fdisplay(image, color);
+    //                    $fdisplay(image, color);
+    //            end
+    //            $fwrite(image, "\n");
+    //    end
+    //end else begin
+    //    $display("Not writing image");
+    //end
+
 
     wait (checkbits == 16'hAB61);
-    if (errorbits == 16'h0000) begin
+    //if (errorbits == 16'h0000) begin
       `ifdef GL
         $display("Monitor: Mega-Project WB (GL) Passed");
       `else
         $display("Monitor: Mega-Project WB (RTL) Passed");
       `endif
-    end else begin
-      `ifdef GL
-        $display("Monitor: Mega-Project WB (GL) Failed [0x%h errors]", errorbits);
-      `else
-        $display("Monitor: Mega-Project WB (RTL) Failed [0x%h errors]", errorbits);
-      `endif
-    end
+    //end else begin
+    //  `ifdef GL
+    //    $display("Monitor: Mega-Project WB (GL) Failed [0x%h errors]", errorbits);
+    //  `else
+    //    $display("Monitor: Mega-Project WB (RTL) Failed [0x%h errors]", errorbits);
+    //  `endif
+    //end
 
     wait (checkbits == 16'hAB62);
     $display("Checking AB62 ok");

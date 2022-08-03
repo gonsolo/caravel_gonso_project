@@ -62,6 +62,15 @@ module user_proj_example(
   assign io_oeb[35:32] = {( 4){1'b0}}; // MOTOR outputs
   assign io_oeb[31: 0] = {(32){1'b1}};
   
+  // Gonso: Temporary
+  //assign io_out[8]      =       1'b1;
+  //assign io_out[7:0]    =       8'h00;
+  reg [7:0] bla = 8'h00;
+  assign io_out[7:0] = bla;
+  always @(posedge wb_clk_i) begin
+    bla = 8'h00;
+  end
+
   // LA
   assign la_data_out = {(128){1'b0}};
   
@@ -69,6 +78,7 @@ module user_proj_example(
   
   assign rst_n = ~wb_rst_i;
 
+  wire [7:0] blabla;
  
   string_led_controller #(
     .TECHNO( 0),
@@ -92,7 +102,12 @@ module user_proj_example(
     .wbs_ack_o (wbs_ack_o),
 
     .irq       (irq[1]      ),
-    .sout      (io_out[36]  )
+    //.sout      (io_out[36]  )
+    //.color_out   (io_out[7:0]),
+    .color_out   (blabla),
+    //.pixel_x_out (io_out[13:8]),
+    //.pixel_y_out (io_out[19:14]),
+    .pixel_write_out(io_out[8])
   );
 
 endmodule
