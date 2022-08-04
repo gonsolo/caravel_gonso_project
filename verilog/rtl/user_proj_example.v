@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// SPDX-FileCopyrightText: 2022 , Julien OURY                       
+// SPDX-FileCopyrightText: 2022 Andreas Wendleder
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // SPDX-License-Identifier: Apache-2.0
-// SPDX-FileContributor: Created by Julien OURY <julien.oury@outlook.fr>
+// SPDX-FileContributor: Created by Andreas Wendleder
+// <andreas.wendleder@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////
 
@@ -101,13 +102,7 @@ module user_proj_example(
     .wbs_dat_o (wbs_dat_o),
     .wbs_ack_o (wbs_ack_o),
 
-    .irq       (irq[1]      ),
-    //.sout      (io_out[36]  )
-    //.color_out   (io_out[7:0]),
-    .color_out   (blabla),
-    //.pixel_x_out (io_out[13:8]),
-    //.pixel_y_out (io_out[19:14]),
-    .pixel_write_out(io_out[8])
+    .irq       (irq[1]      )
   );
 
 endmodule

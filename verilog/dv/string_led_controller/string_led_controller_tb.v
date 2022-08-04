@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// SPDX-FileCopyrightText: 2022 , Julien OURY                       
+// SPDX-FileCopyrightText: 2022 Andreas Wendleder
 // 
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // SPDX-License-Identifier: Apache-2.0
-// SPDX-FileContributor: Created by Julien OURY <julien.oury@outlook.fr>
+// SPDX-FileContributor: Created by Andreas Wendleder
+// <andreas.wendleder@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////
 
@@ -31,33 +32,23 @@ module string_led_controller_tb;
   wire gpio;
   wire [37:0] mprj_io;
   wire [15:0] checkbits;
-  //wire [15:0] errorbits;
   
   wire [7:0]    color;
-  //wire [5:0]    pixel_x;
-  //wire [5:0]    pixel_y;
   wire          pixel_write;
 
   reg [7:0]  cmd_addr;
   reg [7:0]  cmd_data;
 
   assign checkbits = mprj_io[31:16];
-  //assign errorbits = mprj_io[15:0];
   
   assign color = mprj_io[7:0];
-  //assign pixel_x = mprj_io[13:8]
-  //assign pixel_y = mprj_io[19:14]
   assign pixel_write = mprj_io[8];
 
   assign (pull1,pull0)  mprj_io[37:0] = 38'b11111111111111111111111111111111111111;
-  //assign (pull1,pull0)  mprj_io[37:8] = 30'b111111111111111111111111111111;
-  //assign (pull1,pull0)  mprj_io[7:0] = 8'h80;
-  //assign color = 8'h00;
 
   // External clock is used by default.  Make this artificially fast for the
   // simulation.  Normally this would be a slow clock and the digital PLL
   // would be the fast clock.
-
   always #12.5 clock <= (clock === 1'b0);
 
   initial begin
@@ -69,16 +60,14 @@ module string_led_controller_tb;
     $dumpvars(0, string_led_controller_tb);
 
     // Repeat cycles of 1000 clock edges as needed to complete testbench
-    //repeat (7000) begin
     repeat (40) begin
       repeat (1000) @(posedge clock);
-      // $display("+1000 cycles");
     end
     $display("%c[1;31m",27);
     `ifdef GL
-      $display ("Monitor: Timeout, Test Mega-Project WB Port (GL) Failed");
+      $display ("Monitor: Timeout, Test (GL) Failed");
     `else
-      $display ("Monitor: Timeout, Test Mega-Project WB Port (RTL) Failed");
+      $display ("Monitor: Timeout, Test (RTL) Failed");
     `endif
     $display("%c[0m",27);
     $finish;
@@ -91,11 +80,7 @@ module string_led_controller_tb;
     wait(checkbits == 16'hAB60);
     $display("Starting");
 
-
     wait (checkbits == 16'hAB61);
-
-    $display("Color: %0d", color);
-
     $display("Writing image");
     image = $fopen("image.ppm", "w");
     $fdisplay(image, "P3");
@@ -122,14 +107,14 @@ module string_led_controller_tb;
 
   initial begin
     RSTB <= 1'b0;
-    CSB  <= 1'b1;    // Force CSB high
+    CSB  <= 1'b1;               // Force CSB high
     #2000;
-    RSTB <= 1'b1;        // Release reset
+    RSTB <= 1'b1;               // Release reset
     #100000;
-    CSB = 1'b0;    // CSB can be released
+    CSB = 1'b0;                 // CSB can be released
   end
 
-  initial begin    // Power-up sequence
+  initial begin                 // Power-up sequence
     power1 <= 1'b0;
     power2 <= 1'b0;
     #200;

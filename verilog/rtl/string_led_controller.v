@@ -1,5 +1,5 @@
 ////////////////////////////////////////////////////////////////////////////
-// SPDX-FileCopyrightText: 2022 , Julien OURY
+// SPDX-FileCopyrightText: 2022 Andreas Wendleder
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,7 +13,8 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 // SPDX-License-Identifier: Apache-2.0
-// SPDX-FileContributor: Created by Julien OURY <julien.oury@outlook.fr>
+// SPDX-FileContributor: Created by Andreas Wendleder
+// <andreas.wendleder@gmail.com>
 //
 ////////////////////////////////////////////////////////////////////////////
 
@@ -41,16 +42,7 @@ module string_led_controller #(
   output wire        wbs_ack_o , // Wishbone acknowlegement
 
   // Interrupt
-  output wire        irq       , // Interrupt
-
-  // Output serial
-  //output wire        sout        // Serial out
-
-  // Pixel output
-  output wire [7:0]     color_out,
-  output wire           pixel_write_out
-  //output wire [5:0]     pixel_x_out,
-  //output wire [5:0]     pixel_y_out,
+  output wire        irq         // Interrupt
 );
 
   wire             controller_en   ;
@@ -126,10 +118,6 @@ module string_led_controller #(
     .rdata1   (rdata1)
   );
 
-  wire [7:0]     color_out_blabla;
-
-  //assign color_out = 8'h80;
-
   string_led_registers #(
     .ASIZE(ASIZE),
     .PSIZE(PSIZE)
@@ -159,9 +147,7 @@ module string_led_controller #(
     .we_n            (we0_n        ),
     .addr            (addr0        ),
     .wdata           (wdata0       ),
-    .rdata           (rdata0       ),
-    .color_out          (color_out_blabla),
-    .pixel_write_out    (pixel_write_out)
+    .rdata           (rdata0       )
   );
 
 endmodule
@@ -416,10 +402,7 @@ module string_led_registers #(
   output wire             we_n            , // Write enable (active low)
   output reg  [ASIZE-1:0] addr            , // Adress bus
   output reg  [7:0]       wdata           , // Data bus (write)
-  input  wire [7:0]       rdata           ,  // Data bus (read)
-
-  output reg [7:0]      color_out,
-  output reg            pixel_write_out
+  input  wire [7:0]       rdata             // Data bus (read)
  );
 
   localparam
@@ -457,12 +440,7 @@ module string_led_registers #(
 
   always @(posedge clk) begin
         gonso_plus <= gonso_plus_wire;
-        gonso_color <= 8'h20;
-
-        color_out <= 8'h00;
-        //pixel_x_out <= 5'h0;
-        //pixel_y_out <= 5'h0;
-        pixel_write_out <= 1'b1;
+        gonso_color <= 8'h80;
   end
 
   always @(negedge rst_n or posedge clk) begin
@@ -524,29 +502,6 @@ module string_led_registers #(
                 end
               end
             end
-//            ctrl_reg_addr : begin
-//              wbs_dat_o[30] <= start;
-//              wbs_dat_o[29] <= progress;
-//              wbs_dat_o[28] <= w_count[3]; if (wstrb[28]) w_count[3] <= wbs_dat_i[28];
-//              wbs_dat_o[27] <= w_count[2]; if (wstrb[27]) w_count[2] <= wbs_dat_i[27];
-//              wbs_dat_o[26] <= w_count[1]; if (wstrb[26]) w_count[1] <= wbs_dat_i[26];
-//              wbs_dat_o[25] <= w_count[0]; if (wstrb[25]) w_count[0] <= wbs_dat_i[25];
-//
-//              for (i = 0; i < 11; i = i + 1) begin
-//                if (i >= ASIZE) begin
-//                  wbs_dat_o[i+12] <= 1'b0 ;
-//                end else begin
-//                  wbs_dat_o[i+12] <= w_last[i]; if (wstrb[i+12]) w_last[i] <= wbs_dat_i[i+12];
-//                end
-//              end
-//              for (i = 0; i < 11; i = i + 1) begin
-//                if (i >= ASIZE) begin
-//                  wbs_dat_o[i] <= 1'b0 ;
-//                end else begin
-//                  wbs_dat_o[i] <= w_first[i]; if (wstrb[i]) w_first[i] <= wbs_dat_i[i];
-//                end
-//              end
-//            end
           endcase
 
           cs_n <= 1'b1;
@@ -569,12 +524,6 @@ module string_led_registers #(
         cs_n      <= 1'b1;
         ready     <= 1'b0;
       end
-
-//      if (valid && !ready && (wbs_addr == ctrl_reg_addr) && wstrb[31]) begin
-//        start <= wbs_dat_i[31];
-//      end else begin
-//        start <= 1'b0;
-//      end
 
       if ((irq_en == 1'b1) && (last_progress == 1'b1) && (progress == 1'b0)) begin
         irq <= 1'b1;
