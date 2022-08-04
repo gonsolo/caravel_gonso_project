@@ -48,7 +48,7 @@ module gonso #(
   wire             controller_en   ;
   wire [PSIZE-1:0] gonso;
   wire [PSIZE-1:0] gonso_plus;
-  wire [PSIZE-1:0] gonso_color;
+  wire [7:0]       gonso_color;
   wire             tick            ;
   wire             valid           ;
   wire             polarity        ;
@@ -142,7 +142,7 @@ module string_led_registers #(
   output reg              controller_en   , // Controller enable (active high)
   output reg  [PSIZE-1:0] gonso,            // gonso
   output reg  [PSIZE-1:0] gonso_plus      , // gonso plus
-  output reg  [PSIZE-1:0] gonso_color     , // gonso color
+  output reg  [7:0] gonso_color           , // gonso color
   output reg              polarity        , // Polarity of output signal
 
   // Sequencer
@@ -178,7 +178,6 @@ module string_led_registers #(
     gonso_reg_addr              = 3'b01,
     gonso_plus_reg_addr         = 3'b10,
     gonso_color_reg_addr        = 3'b11;
-    //ctrl_reg_addr               = 3'b11;
 
   wire        valid;
   wire [31:0] wstrb;
@@ -196,6 +195,7 @@ module string_led_registers #(
   assign wbs_ack_o = ready;
   assign we_n      = 1'b0;
 
+  wire [PSIZE-1:0]      gonso_plus_wire;
 
   Honzales honzales (
     .clock(clk),
@@ -204,7 +204,6 @@ module string_led_registers #(
     .io_output(gonso_plus_wire)
   );
 
-  wire [PSIZE-1:0]      gonso_plus_wire;
 
   always @(posedge clk) begin
         gonso_plus <= gonso_plus_wire;
@@ -223,7 +222,7 @@ module string_led_registers #(
       polarity      <= 1'b0;
       gonso         <= {(PSIZE){1'b0}};
       gonso_plus    <= {(PSIZE){1'b0}};
-      gonso_color   <= {(PSIZE){1'b0}};
+      gonso_color   <= {(8){1'b0}};
       w_count       <= 4'b0000;
       w_first       <= {(ASIZE){1'b0}};
       w_last        <= {(ASIZE){1'b0}};
@@ -263,7 +262,7 @@ module string_led_registers #(
             end
             gonso_color_reg_addr : begin
               for (i = 0; i < 32; i = i + 1) begin
-                if (i >= PSIZE) begin
+                if (i >= 8) begin
                   wbs_dat_o[i] <= 1'b0 ;
                 end else begin
                   wbs_dat_o[i] <= gonso_color[i] ; if (wstrb[i]) gonso_color[i] <= wbs_dat_i[i];
