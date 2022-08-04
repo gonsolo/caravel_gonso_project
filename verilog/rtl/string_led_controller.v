@@ -457,7 +457,7 @@ module string_led_registers #(
 
   always @(posedge clk) begin
         gonso_plus <= gonso_plus_wire;
-        gonso_color <= 8'h80;
+        gonso_color <= 8'h70;
 
         color_out <= 8'h00;
         //pixel_x_out <= 5'h0;

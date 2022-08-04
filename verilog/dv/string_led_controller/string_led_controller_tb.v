@@ -113,6 +113,9 @@ module string_led_controller_tb;
 
 
     wait (checkbits == 16'hAB61);
+
+    $display("Color: %0d", color);
+
     //if (errorbits == 16'h0000) begin
       `ifdef GL
         $display("Monitor: Mega-Project WB (GL) Passed");

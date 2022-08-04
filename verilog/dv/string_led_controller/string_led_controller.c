@@ -16,6 +16,8 @@
  * SPDX-FileContributor: Created by Julien OURY <julien.oury@outlook.fr>
  */
 
+//#include <stdio.h>
+
 // This include is relative to $CARAVEL_PATH (see Makefile)
 #include <defs.h>
 #include <stub.c>
@@ -123,10 +125,10 @@ void main() {
 
   do {
         color = reg_mprj_gonso_color;
-  } while (color != 0x00000080);
+  } while (color != 0x00000070);
 
   // Flag end of the test
-  reg_mprj_datal = 0xAB610000;
+  reg_mprj_datal = 0xAB610000 | color;
 
   // Test setting again
   reg_mprj_datal = 0xAB620000;
