@@ -81,11 +81,11 @@ module user_proj_example(
 
   wire [7:0] blabla;
  
-  string_led_controller #(
+  gonso #(
     .TECHNO( 0),
     .ASIZE ( 6),
     .PSIZE (20)
-  ) i_string_led_controller (
+  ) i_gonso (
 `ifdef USE_POWER_PINS
 	.vccd1     (vccd1       ),
 	.vssd1     (vssd1       ),

@@ -18,7 +18,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-module string_led_controller #(
+module gonso #(
   parameter TECHNO =  1        , // TECHNO RAM (0:inferred, 1:SkyWater)
   parameter ASIZE  = 32        , // Size of memory buffer bus (bits)
   parameter PSIZE  = 32          // Size of prescaler counter(bits)

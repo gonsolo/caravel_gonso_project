@@ -22,7 +22,7 @@
 
 `timescale 1 ns / 1 ps
 
-module string_led_controller_tb;
+module gonso_tb;
   reg clock;
   reg RSTB;
   reg CSB;
@@ -56,8 +56,8 @@ module string_led_controller_tb;
   end
 
   initial begin
-    $dumpfile("string_led_controller.vcd");
-    $dumpvars(0, string_led_controller_tb);
+    $dumpfile("gonso.vcd");
+    $dumpvars(0, gonso_tb);
 
     // Repeat cycles of 1000 clock edges as needed to complete testbench
     repeat (40) begin
@@ -162,7 +162,7 @@ module string_led_controller_tb;
   );
 
   spiflash #(
-    .FILENAME("string_led_controller.hex")
+    .FILENAME("gonso.hex")
   ) spiflash (
     .csb(flash_csb),
     .clk(flash_clk),
