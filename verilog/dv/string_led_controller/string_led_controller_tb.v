@@ -91,44 +91,25 @@ module string_led_controller_tb;
     wait(checkbits == 16'hAB60);
     $display("Starting");
 
-    //if (pixel_write == 1'b1) begin
-    //    $display("Writing image");
-    //    image = $fopen("image.ppm", "w");
-    //    $fdisplay(image, "P3");
-    //    $fdisplay(image, "64 64");
-    //    $fdisplay(image, "255");
-
-    //    // Write a red image after first value is encountered
-    //    repeat (64) begin
-    //            repeat (64) begin
-    //                    $fdisplay(image, color);
-    //                    $fdisplay(image, color);
-    //                    $fdisplay(image, color);
-    //            end
-    //            $fwrite(image, "\n");
-    //    end
-    //end else begin
-    //    $display("Not writing image");
-    //end
-
 
     wait (checkbits == 16'hAB61);
 
     $display("Color: %0d", color);
 
-    //if (errorbits == 16'h0000) begin
-      `ifdef GL
-        $display("Monitor: Mega-Project WB (GL) Passed");
-      `else
-        $display("Monitor: Mega-Project WB (RTL) Passed");
-      `endif
-    //end else begin
-    //  `ifdef GL
-    //    $display("Monitor: Mega-Project WB (GL) Failed [0x%h errors]", errorbits);
-    //  `else
-    //    $display("Monitor: Mega-Project WB (RTL) Failed [0x%h errors]", errorbits);
-    //  `endif
-    //end
+    $display("Writing image");
+    image = $fopen("image.ppm", "w");
+    $fdisplay(image, "P3");
+    $fdisplay(image, "64 64");
+    $fdisplay(image, "255");
+
+    repeat (64) begin
+            repeat (64) begin
+                    $fdisplay(image, color);
+                    $fdisplay(image, color);
+                    $fdisplay(image, color);
+            end
+            $fwrite(image, "\n");
+    end
 
     wait (checkbits == 16'hAB62);
     $display("Checking AB62 ok");

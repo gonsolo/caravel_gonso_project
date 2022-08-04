@@ -123,9 +123,9 @@ void main() {
         data = reg_mprj_gonso_plus;
   } while (data != 0x00000043);
 
-  do {
-        color = reg_mprj_gonso_color;
-  } while (color != 0x00000070);
+  //do {
+  color = reg_mprj_gonso_color;
+  //} while (color != 0x00000070);
 
   // Flag end of the test
   reg_mprj_datal = 0xAB610000 | color;

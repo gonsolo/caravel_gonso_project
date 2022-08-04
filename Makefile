@@ -52,7 +52,7 @@ cv: copy_and_verify
 #copy_and_verify: copy verify-honzales-rtl show
 copy_and_verify: copy verify-string_led_controller-rtl show
 show:
-	#gimp verilog/dv/honzales/image.ppm
+	gimp verilog/dv/string_led_controller/image.ppm
 cs: copy_and_synthesize
 copy_and_synthesize: copy user_proj_example
 copy:
