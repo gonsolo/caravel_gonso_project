@@ -56,6 +56,7 @@ module string_led_controller #(
   wire             controller_en   ;
   wire [PSIZE-1:0] gonso;
   wire [PSIZE-1:0] gonso_plus;
+  wire [PSIZE-1:0] gonso_color;
   wire             tick            ;
   wire             valid           ;
   wire             polarity        ;
@@ -138,6 +139,7 @@ module string_led_controller #(
     .controller_en   (controller_en),
     .gonso           (gonso),
     .gonso_plus      (gonso_plus),
+    .gonso_color     (gonso_color),
     .polarity        (polarity     ),
     .w_count         (w_count      ),
     .w_first         (w_first      ),
@@ -386,6 +388,7 @@ module string_led_registers #(
   output reg              controller_en   , // Controller enable (active high)
   output reg  [PSIZE-1:0] gonso,            // gonso
   output reg  [PSIZE-1:0] gonso_plus      , // gonso plus
+  output reg  [PSIZE-1:0] gonso_color     , // gonso color
   output reg              polarity        , // Polarity of output signal
 
   // Sequencer
@@ -420,10 +423,11 @@ module string_led_registers #(
  );
 
   localparam
-    config_reg_addr     = 3'b00,
-    gonso_reg_addr      = 3'b01,
-    gonso_plus_reg_addr = 3'b10,
-    ctrl_reg_addr       = 3'b11;
+    config_reg_addr             = 3'b00,
+    gonso_reg_addr              = 3'b01,
+    gonso_plus_reg_addr         = 3'b10,
+    gonso_color_reg_addr        = 3'b11;
+    //ctrl_reg_addr               = 3'b11;
 
   wire        valid;
   wire [31:0] wstrb;
@@ -453,6 +457,7 @@ module string_led_registers #(
 
   always @(posedge clk) begin
         gonso_plus <= gonso_plus_wire;
+        gonso_color <= 8'h80;
 
         color_out <= 8'h00;
         //pixel_x_out <= 5'h0;
@@ -472,6 +477,7 @@ module string_led_registers #(
       polarity      <= 1'b0;
       gonso         <= {(PSIZE){1'b0}};
       gonso_plus    <= {(PSIZE){1'b0}};
+      gonso_color   <= {(PSIZE){1'b0}};
       w_count       <= 4'b0000;
       w_first       <= {(ASIZE){1'b0}};
       w_last        <= {(ASIZE){1'b0}};
@@ -509,29 +515,38 @@ module string_led_registers #(
                 end
               end
             end
-            ctrl_reg_addr : begin
-              wbs_dat_o[30] <= start;
-              wbs_dat_o[29] <= progress;
-              wbs_dat_o[28] <= w_count[3]; if (wstrb[28]) w_count[3] <= wbs_dat_i[28];
-              wbs_dat_o[27] <= w_count[2]; if (wstrb[27]) w_count[2] <= wbs_dat_i[27];
-              wbs_dat_o[26] <= w_count[1]; if (wstrb[26]) w_count[1] <= wbs_dat_i[26];
-              wbs_dat_o[25] <= w_count[0]; if (wstrb[25]) w_count[0] <= wbs_dat_i[25];
-
-              for (i = 0; i < 11; i = i + 1) begin
-                if (i >= ASIZE) begin
-                  wbs_dat_o[i+12] <= 1'b0 ;
-                end else begin
-                  wbs_dat_o[i+12] <= w_last[i]; if (wstrb[i+12]) w_last[i] <= wbs_dat_i[i+12];
-                end
-              end
-              for (i = 0; i < 11; i = i + 1) begin
-                if (i >= ASIZE) begin
+            gonso_color_reg_addr : begin
+              for (i = 0; i < 32; i = i + 1) begin
+                if (i >= PSIZE) begin
                   wbs_dat_o[i] <= 1'b0 ;
                 end else begin
-                  wbs_dat_o[i] <= w_first[i]; if (wstrb[i]) w_first[i] <= wbs_dat_i[i];
+                  wbs_dat_o[i] <= gonso_color[i] ; if (wstrb[i]) gonso_color[i] <= wbs_dat_i[i];
                 end
               end
             end
+//            ctrl_reg_addr : begin
+//              wbs_dat_o[30] <= start;
+//              wbs_dat_o[29] <= progress;
+//              wbs_dat_o[28] <= w_count[3]; if (wstrb[28]) w_count[3] <= wbs_dat_i[28];
+//              wbs_dat_o[27] <= w_count[2]; if (wstrb[27]) w_count[2] <= wbs_dat_i[27];
+//              wbs_dat_o[26] <= w_count[1]; if (wstrb[26]) w_count[1] <= wbs_dat_i[26];
+//              wbs_dat_o[25] <= w_count[0]; if (wstrb[25]) w_count[0] <= wbs_dat_i[25];
+//
+//              for (i = 0; i < 11; i = i + 1) begin
+//                if (i >= ASIZE) begin
+//                  wbs_dat_o[i+12] <= 1'b0 ;
+//                end else begin
+//                  wbs_dat_o[i+12] <= w_last[i]; if (wstrb[i+12]) w_last[i] <= wbs_dat_i[i+12];
+//                end
+//              end
+//              for (i = 0; i < 11; i = i + 1) begin
+//                if (i >= ASIZE) begin
+//                  wbs_dat_o[i] <= 1'b0 ;
+//                end else begin
+//                  wbs_dat_o[i] <= w_first[i]; if (wstrb[i]) w_first[i] <= wbs_dat_i[i];
+//                end
+//              end
+//            end
           endcase
 
           cs_n <= 1'b1;
@@ -555,11 +570,11 @@ module string_led_registers #(
         ready     <= 1'b0;
       end
 
-      if (valid && !ready && (wbs_addr == ctrl_reg_addr) && wstrb[31]) begin
-        start <= wbs_dat_i[31];
-      end else begin
-        start <= 1'b0;
-      end
+//      if (valid && !ready && (wbs_addr == ctrl_reg_addr) && wstrb[31]) begin
+//        start <= wbs_dat_i[31];
+//      end else begin
+//        start <= 1'b0;
+//      end
 
       if ((irq_en == 1'b1) && (last_progress == 1'b1) && (progress == 1'b0)) begin
         irq <= 1'b1;

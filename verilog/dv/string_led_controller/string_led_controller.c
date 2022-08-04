@@ -30,6 +30,8 @@
 #define reg_mprj_led_config       (*(volatile uint32_t*)0x30030000)
 #define reg_mprj_gonso            (*(volatile uint32_t*)0x30030004)
 #define reg_mprj_gonso_plus       (*(volatile uint32_t*)0x30030008)
+#define reg_mprj_gonso_color      (*(volatile uint32_t*)0x3003000C)
+//#define reg_mprj_led_control      (*(volatile uint32_t*)0x3003000C)
 #define reg_mprj_led_control      (*(volatile uint32_t*)0x3003000C)
 #define reg_mprj_led_data_0       (*(volatile uint32_t*)0x30031000)
 #define reg_mprj_led_data_1       (*(volatile uint32_t*)0x30031004)
@@ -111,12 +113,17 @@ void main() {
   //} while ((data & 0x40000000) == 0x40000000 );
 
   reg_mprj_gonso_plus   = 0x00000000;
-  reg_mprj_gonso        = 0x00000001;
+  reg_mprj_gonso        = 0x00000042;
 
   int data;
+  int color;
   do {
         data = reg_mprj_gonso_plus;
-  } while (data != 0x00000002);
+  } while (data != 0x00000043);
+
+  do {
+        color = reg_mprj_gonso_color;
+  } while (color != 0x00000080);
 
   // Flag end of the test
   reg_mprj_datal = 0xAB610000;
