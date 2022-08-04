@@ -196,18 +196,23 @@ module string_led_registers #(
   assign we_n      = 1'b0;
 
   wire [PSIZE-1:0]      gonso_plus_wire;
+  reg [7:0]            gonso_color_in_wire;
+  wire [7:0]            gonso_color_out_wire;
 
   Honzales honzales (
     .clock(clk),
     .reset(rst_n),
     .io_input(gonso),
-    .io_output(gonso_plus_wire)
+    .io_output(gonso_plus_wire),
+    .io_color_in(gonso_color_in_wire),
+    .io_color_out(gonso_color_out_wire)
   );
-
 
   always @(posedge clk) begin
         gonso_plus <= gonso_plus_wire;
-        gonso_color <= 8'h80;
+        //gonso_color <= 8'h80;
+        gonso_color_in_wire <= 8'h00;
+        gonso_color <= gonso_color_out_wire;
   end
 
   always @(negedge rst_n or posedge clk) begin
