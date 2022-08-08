@@ -45,7 +45,7 @@ else
 endif
 
 # Gonso
-.PHONY: all copy cv copy_and_verify cs copy_and_synthesize ec edit_c et edit_t ev edit_verilog show
+.PHONY: all copy cv copy_and_verify cs copy_and_synthesize ec edit_c et edit_t ev edit_verilog show tcf test_compile_firmware
 all: copy_and_verify
 cv: copy_and_verify
 copy_and_verify: copy verify-gonso-rtl show
@@ -64,6 +64,9 @@ edit_t:
 ev: edit_verilog
 edit_verilog:
 	vi verilog/rtl/gonso.v
+tcf: test_compile_firmware
+test_compile_firmware:
+	gcc -c -Icaravel/verilog/dv/caravel verilog/dv/gonso/gonso.c
 # Gonso
 
 # Include Caravel Makefile Targets
