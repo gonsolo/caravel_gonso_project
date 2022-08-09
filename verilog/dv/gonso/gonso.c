@@ -18,7 +18,6 @@
 
 #include <defs.h>
 //#include <stub.c>
-
 void gonso_memcpy(void *dest, void *src, uint32_t n)
 {
         char *csrc = (char *)src;
@@ -91,6 +90,7 @@ struct triangle triangles[34] =  {
         {  { 0.0495656 ,  1.2 ,  -0.108948 }, { 0.0495656 ,  0.0 ,  -0.108948 }, { -0.146892 ,  0.0 ,  -0.673479 }  }
 };
 #endif
+#if 0
 
 // Cornell box triangles (Cornell box with tall box, no small box)
 struct triangle triangles[22] = {
@@ -137,13 +137,14 @@ struct camera camera = {
                 }
         }
 };
+#endif
 
 //#define reg_mprj_led_config       (*(volatile uint32_t*)0x30030000)
 #define reg_mprj_gonso            (*(volatile uint32_t*)0x30030004)
 #define reg_mprj_gonso_plus       (*(volatile uint32_t*)0x30030008)
 #define reg_mprj_gonso_color      (*(volatile uint32_t*)0x3003000C)
 
-#define reg_mprj_gonso_float    (*(volatile uint32_t*)0x30030010)
+//#define reg_mprj_gonso_float    (*(volatile uint32_t*)0x30030010)
 
 void main() {
 
