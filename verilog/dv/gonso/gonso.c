@@ -31,7 +31,7 @@ struct triangle {
         struct point c;
 };
 
-// Cornell box triangles
+// Cornell box triangles (Cornell box plus two cubes)
 struct triangle triangles[34] =  {
         {  { -1.0 ,  1.74846e-07 ,  -1.0 }, { -1.0 ,  1.74846e-07 ,  1.0 }, { 1.0 ,  -1.74846e-07 ,  1.0 }  },
         {  { -1.0 ,  1.74846e-07 ,  -1.0 }, { 1.0 ,  -1.74846e-07 ,  1.0 }, { 1.0 ,  -1.74846e-07 ,  -1.0 }  },

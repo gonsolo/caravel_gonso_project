@@ -67,6 +67,7 @@ edit_verilog:
 tcf: test_compile_firmware
 test_compile_firmware:
 	gcc -c -Icaravel/verilog/dv/caravel verilog/dv/gonso/gonso.c
+	rm -f gonso.o
 # Gonso
 
 # Include Caravel Makefile Targets
