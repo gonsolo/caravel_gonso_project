@@ -31,6 +31,18 @@ struct triangle {
         struct point c;
 };
 
+struct matrix {
+        float storage[4][4];
+};
+
+struct transform {
+        struct matrix matrix;
+};
+
+struct camera {
+        struct transform object_to_world;
+};
+
 // Cornell box triangles (Cornell box plus two cubes)
 struct triangle triangles[34] =  {
         {  { -1.0 ,  1.74846e-07 ,  -1.0 }, { -1.0 ,  1.74846e-07 ,  1.0 }, { 1.0 ,  -1.74846e-07 ,  1.0 }  },
@@ -73,6 +85,20 @@ struct triangle triangles[34] =  {
 struct triangle area_light_triangles[2] = {
         {  { -0.24 ,  1.98 ,  -0.22 }, { 0.23 ,  1.98 ,  -0.22 }, { 0.23 ,  1.98 ,  0.16 }  },
         {  { -0.24 ,  1.98 ,  -0.22 }, { 0.23 ,  1.98 ,  0.16 }, { -0.24 ,  1.98 ,  0.16 }  }
+};
+
+// Camera
+struct camera camera = {
+        .object_to_world = {
+                .matrix = {
+                        .storage = {
+                                { 1.0, 0.0, 0.0, 0.0 },
+                                { 0.0, 1.0, 1.4901161e-08, 0.99999994 },
+                                { 0.0, 0.0, -0.99999994, 6.8 },
+                                { 0.0, 0.0, 1.4901161e-08, 0.99999994 }
+                        }
+                }
+        }
 };
 
 //#define reg_mprj_led_config       (*(volatile uint32_t*)0x30030000)
