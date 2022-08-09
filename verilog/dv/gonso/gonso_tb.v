@@ -60,7 +60,8 @@ module gonso_tb;
     $dumpvars(0, gonso_tb);
 
     // Repeat cycles of 1000 clock edges as needed to complete testbench
-    repeat (40) begin
+    // 100 * 1000 cycles take x 1m57s
+    repeat (200) begin
       repeat (1000) @(posedge clock);
     end
     $display("%c[1;31m",27);

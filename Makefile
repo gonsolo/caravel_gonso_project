@@ -45,12 +45,14 @@ else
 endif
 
 # Gonso
-.PHONY: all copy cv copy_and_verify cs copy_and_synthesize ec edit_c et edit_t ev edit_verilog show tcf test_compile_firmware
+.PHONY: all copy cv copy_and_verify cs copy_and_synthesize ec edit_c et edit_t ev edit_verilog show tcf test_compile_firmware notify
 all: copy_and_verify
 cv: copy_and_verify
-copy_and_verify: copy verify-gonso-rtl show
+copy_and_verify: copy verify-gonso-rtl show notify
 show:
 	gimp verilog/dv/gonso/image.ppm
+notify:
+	$(shell notify-send Ready)
 cs: copy_and_synthesize
 copy_and_synthesize: copy user_proj_example
 copy:

@@ -18,6 +18,15 @@
 
 #include <defs.h>
 //#include <stub.c>
+
+//#define reg_mprj_led_config       (*(volatile uint32_t*)0x30030000)
+#define reg_mprj_gonso            (*(volatile uint32_t*)0x30030004)
+#define reg_mprj_gonso_plus       (*(volatile uint32_t*)0x30030008)
+#define reg_mprj_gonso_color      (*(volatile uint32_t*)0x3003000C)
+
+#define reg_mprj_gonso_float    (*(volatile uint32_t*)0x30030010)
+
+
 void gonso_memcpy(void *dest, void *src, uint32_t n)
 {
         char *csrc = (char *)src;
@@ -91,6 +100,18 @@ struct triangle triangles[34] =  {
 };
 #endif
 
+void send_triangle(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
+        uint32_t float_as_int;
+        gonso_memcpy(&float_as_int, &a, sizeof(float_as_int));
+        reg_mprj_gonso_float  = float_as_int;
+}
+
+void send_triangles() {
+        send_triangle(-1.0, 1.74846e-07, -1.0,  -1.0 ,  1.74846e-07 ,  1.0 ,  1.0 ,  -1.74846e-07 ,  1.0 );
+        send_triangle(-1.0, 1.74846e-07, -1.0,  1.0 ,  -1.74846e-07 ,  1.0 ,  1.0 ,  -1.74846e-07 ,  -1.0 );
+        send_triangle( 1.0, 2.0 ,  1.0 ,  -1.0 ,  2.0 ,  1.0 ,  -1.0 ,  2.0 ,  -1.0 );
+        send_triangle( 1.0, 2.0 ,  1.0 ,  -1.0 ,  2.0 ,  -1.0 ,  1.0 ,  2.0 ,  -1.0 );
+}
 #if 0
 // Cornell box triangles (Cornell box with tall box, no small box)
 struct triangle triangles[22] = {
@@ -119,19 +140,15 @@ struct triangle triangles[22] = {
 };
 #endif
 
-// Cornell box triangles (just back wall)
-struct triangle triangles[2] = {
-        {  { -1.0 ,  0.0 ,  -1.0 }, { -1.0 ,  2.0 ,  -1.0 }, { 1.0 ,  2.0 ,  -1.0 }  },
-        {  { -1.0 ,  0.0 ,  -1.0 }, { 1.0 ,  2.0 ,  -1.0 }, { 1.0 ,  0.0 ,  -1.0 }  }
-};
-
 #if 0
 // Area light
 struct triangle area_light_triangles[2] = {
         {  { -0.24 ,  1.98 ,  -0.22 }, { 0.23 ,  1.98 ,  -0.22 }, { 0.23 ,  1.98 ,  0.16 }  },
         {  { -0.24 ,  1.98 ,  -0.22 }, { 0.23 ,  1.98 ,  0.16 }, { -0.24 ,  1.98 ,  0.16 }  }
 };
+#endif
 
+#if 0
 // Camera
 struct camera camera = {
         .object_to_world = {
@@ -146,13 +163,6 @@ struct camera camera = {
         }
 };
 #endif
-
-//#define reg_mprj_led_config       (*(volatile uint32_t*)0x30030000)
-#define reg_mprj_gonso            (*(volatile uint32_t*)0x30030004)
-#define reg_mprj_gonso_plus       (*(volatile uint32_t*)0x30030008)
-#define reg_mprj_gonso_color      (*(volatile uint32_t*)0x3003000C)
-
-//#define reg_mprj_gonso_float    (*(volatile uint32_t*)0x30030010)
 
 void main() {
 
@@ -200,10 +210,7 @@ void main() {
   // Flag start of the test
   reg_mprj_datal = 0xAB600000;
 
-  //float f = 0.f;
-  //uint32_t i;
-  //gonso_memcpy(&i, &f, sizeof(i));
-  //reg_mprj_gonso_float  = i;
+  send_triangles();
 
   reg_mprj_gonso_plus   = 0x00000000;
   reg_mprj_gonso        = 0x00000042;
