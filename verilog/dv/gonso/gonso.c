@@ -191,10 +191,10 @@ void main() {
   // Flag start of the test
   reg_mprj_datal = 0xAB600000;
 
-  float f = 0.f;
-  uint32_t i;
-  gonso_memcpy(&i, &f, sizeof(i));
-
+  //float f = 0.f;
+  //uint32_t i;
+  //gonso_memcpy(&i, &f, sizeof(i));
+  //reg_mprj_gonso_float  = i;
 
   reg_mprj_gonso_plus   = 0x00000000;
   reg_mprj_gonso        = 0x00000042;
