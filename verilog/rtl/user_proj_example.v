@@ -95,7 +95,7 @@ module user_proj_example(
 
     .wbs_cyc_i (wbs_cyc_i),
     .wbs_stb_i (wbs_stb_i),
-    .wbs_adr_i (wbs_adr_i),
+    .wishbone_address (wbs_adr_i),
     .wbs_we_i  (wbs_we_i),
     .wbs_dat_i (wbs_dat_i),
     .wbs_sel_i (wbs_sel_i),

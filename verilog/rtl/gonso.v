@@ -34,7 +34,7 @@ module gonso #(
   // Wishbone bus
   input  wire        wbs_cyc_i , // Wishbone strobe/request
   input  wire        wbs_stb_i , // Wishbone strobe/request
-  input  wire [31:0] wbs_adr_i , // Wishbone address
+  input  wire [31:0] wishbone_address,
   input  wire        wbs_we_i  , // Wishbone write (1:write, 0:read)
   input  wire [31:0] wbs_dat_i , // Wishbone data output
   input  wire [3:0]  wbs_sel_i , // Wishbone byte enable
@@ -111,7 +111,7 @@ module gonso #(
     .progress        (progress     ),
     .wbs_cyc_i       (wbs_cyc_i    ),
     .wbs_stb_i       (wbs_stb_i    ),
-    .wbs_adr_i       (wbs_adr_i    ),
+    .wishbone_address   (wishbone_address),
     .wbs_we_i        (wbs_we_i     ),
     .wbs_dat_i       (wbs_dat_i    ),
     .wbs_sel_i       (wbs_sel_i    ),
@@ -155,7 +155,7 @@ module gonso_registers #(
   // Wishbone bus
   input  wire             wbs_cyc_i       , // Wishbone strobe/request
   input  wire             wbs_stb_i       , // Wishbone strobe/request
-  input  wire [31:0]      wbs_adr_i       , // Wishbone address
+  input  wire [31:0]      wishbone_address,
   input  wire             wbs_we_i        , // Wishbone write (1:write, 0:read)
   input  wire [31:0]      wbs_dat_i       , // Wishbone data output
   input  wire [ 3:0]      wbs_sel_i       , // Wishbone byte enable
@@ -234,8 +234,8 @@ module gonso_registers #(
     end else begin
 
       if (valid && !ready) begin
-        if (wbs_adr_i[12] == 1'b0) begin // Register access
-          case (wbs_adr_i)
+        if (wishbone_address[12] == 1'b0) begin // Register access
+          case (wishbone_address)
             gonso_reg_addr : begin
               for (i = 0; i < 32; i = i + 1) begin
                 if (i >= PSIZE) begin
