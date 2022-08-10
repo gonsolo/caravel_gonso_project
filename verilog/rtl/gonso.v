@@ -93,7 +93,7 @@ module gonso #(
     .rdata1   (rdata1)
   );
 
-  string_led_registers #(
+  gonso_registers #(
     .ASIZE(ASIZE),
     .PSIZE(PSIZE)
   ) i_registers (
@@ -130,7 +130,7 @@ endmodule
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Registers
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-module string_led_registers #(
+module gonso_registers #(
   parameter ASIZE = 32                    , // Size of memory buffer bus (bits)
   parameter PSIZE = 32                      // Size of prescaler counter(bits)
 )(
