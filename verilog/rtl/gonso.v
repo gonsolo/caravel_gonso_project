@@ -59,7 +59,6 @@ module gonso (
         reg [5:0]       w_first         ;
         reg [5:0]       w_last          ;
         reg             start           ;
-        reg             cs0_n           ;
         reg [5:0]       addr0           ;
         reg [7:0]       wdata0          ;
         reg [7:0]       gonso_color_in_wire;
@@ -92,7 +91,6 @@ module gonso (
 
         always @(negedge rst_n or posedge clk) begin
                 if (rst_n == 1'b0) begin
-                        cs0_n          <= 1'b1;
                         addr0          <= {(6){1'b0}};
                         wdata0         <= 8'h00;
                         ready         <= 1'b0;
@@ -138,10 +136,8 @@ module gonso (
                                                 end
                                         end
                                 endcase
-                                cs0_n <= 1'b1;
                                 ready     <= 1'b1;
                         end else begin
-                                cs0_n      <= 1'b1;
                                 ready     <= 1'b0;
                         end
                 end
