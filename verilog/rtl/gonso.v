@@ -173,13 +173,9 @@ module string_led_registers #(
   input  wire [7:0]       rdata             // Data bus (read)
  );
 
-  localparam
-    //gonso_reg_addr              = 3'b01,
-    gonso_reg_addr              = 32'h30030004,
-    //gonso_plus_reg_addr         = 3'b10,
-    gonso_plus_reg_addr         = 32'h30030008,
-    //gonso_color_reg_addr        = 3'b11;
-    gonso_color_reg_addr        = 32'h3003000c;
+  localparam gonso_reg_addr              = 32'h30030004;
+  localparam gonso_plus_reg_addr         = 32'h30030008;
+  localparam gonso_color_reg_addr        = 32'h3003000c;
 
   wire        valid;
   wire [31:0] wstrb;
