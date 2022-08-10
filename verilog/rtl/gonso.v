@@ -174,13 +174,16 @@ module string_led_registers #(
  );
 
   localparam
-    gonso_reg_addr              = 3'b01,
-    gonso_plus_reg_addr         = 3'b10,
-    gonso_color_reg_addr        = 3'b11;
+    //gonso_reg_addr              = 3'b01,
+    gonso_reg_addr              = 32'h30030004,
+    //gonso_plus_reg_addr         = 3'b10,
+    gonso_plus_reg_addr         = 32'h30030008,
+    //gonso_color_reg_addr        = 3'b11;
+    gonso_color_reg_addr        = 32'h3003000c;
 
   wire        valid;
   wire [31:0] wstrb;
-  wire [1:0]  wbs_addr;
+  //wire [1:0]  wbs_addr;
 
   reg         irq_en;
   reg         ready;
@@ -190,7 +193,7 @@ module string_led_registers #(
 
   assign valid     = wbs_cyc_i && wbs_stb_i;
   assign wstrb     = {{8{wbs_sel_i[3]}}, {8{wbs_sel_i[2]}}, {8{wbs_sel_i[1]}}, {8{wbs_sel_i[0]}}} & {32{wbs_we_i}};
-  assign wbs_addr  = wbs_adr_i[3:2];
+  //assign wbs_addr  = wbs_adr_i[3:2];
   assign wbs_ack_o = ready;
   assign we_n      = 1'b0;
 
@@ -238,7 +241,10 @@ module string_led_registers #(
       if (valid && !ready) begin
         if (wbs_adr_i[12] == 1'b0) begin // Register access
 
-          case (wbs_addr)
+          //$display("wbs_adri: %h, wbs_addr: %h", wbs_adr_i, wbs_addr);
+
+          //case (wbs_addr)
+          case (wbs_adr_i)
             gonso_reg_addr : begin
               for (i = 0; i < 32; i = i + 1) begin
                 if (i >= PSIZE) begin
