@@ -189,7 +189,6 @@ module string_led_registers #(
 
   assign valid     = wbs_cyc_i && wbs_stb_i;
   assign wstrb     = {{8{wbs_sel_i[3]}}, {8{wbs_sel_i[2]}}, {8{wbs_sel_i[1]}}, {8{wbs_sel_i[0]}}} & {32{wbs_we_i}};
-  //assign wbs_addr  = wbs_adr_i[3:2];
   assign wbs_ack_o = ready;
   assign we_n      = 1'b0;
 
@@ -236,10 +235,6 @@ module string_led_registers #(
 
       if (valid && !ready) begin
         if (wbs_adr_i[12] == 1'b0) begin // Register access
-
-          //$display("wbs_adri: %h, wbs_addr: %h", wbs_adr_i, wbs_addr);
-
-          //case (wbs_addr)
           case (wbs_adr_i)
             gonso_reg_addr : begin
               for (i = 0; i < 32; i = i + 1) begin
@@ -273,20 +268,8 @@ module string_led_registers #(
 
           cs_n <= 1'b1;
 
-        end else begin // Memory access
-
-          // Memory control
-          if (wbs_we_i == 1'b1) begin
-            cs_n <= 1'b0;
-          end else begin
-            cs_n <= 1'b1;
-          end
-
-	  addr[ASIZE-1:0] <= wbs_adr_i[ASIZE+1:2];
-          wdata[7:0]      <= wbs_dat_i[7:0];
-
         end
-		ready     <= 1'b1;
+	ready     <= 1'b1;
       end else begin
         cs_n      <= 1'b1;
         ready     <= 1'b0;
