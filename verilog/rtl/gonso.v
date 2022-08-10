@@ -234,41 +234,37 @@ module gonso_registers #(
     end else begin
 
       if (valid && !ready) begin
-        if (wishbone_address[12] == 1'b0) begin // Register access
-          case (wishbone_address)
-            gonso_reg_addr : begin
-              for (i = 0; i < 32; i = i + 1) begin
-                if (i >= PSIZE) begin
-                  wbs_dat_o[i] <= 1'b0 ;
-                end else begin
-                  wbs_dat_o[i] <= gonso[i] ; if (wstrb[i]) gonso[i] <= wbs_dat_i[i];
+        case (wishbone_address)
+          gonso_reg_addr : begin
+            for (i = 0; i < 32; i = i + 1) begin
+              if (i >= PSIZE) begin
+                wbs_dat_o[i] <= 1'b0 ;
+              end else begin
+                wbs_dat_o[i] <= gonso[i] ; if (wstrb[i]) gonso[i] <= wbs_dat_i[i];
 
-                end
               end
             end
-            gonso_plus_reg_addr : begin
-              for (i = 0; i < 32; i = i + 1) begin
-                if (i >= PSIZE) begin
-                  wbs_dat_o[i] <= 1'b0 ;
-                end else begin
-                  wbs_dat_o[i] <= gonso_plus[i] ; if (wstrb[i]) gonso_plus[i] <= wbs_dat_i[i];
-                end
+          end
+          gonso_plus_reg_addr : begin
+            for (i = 0; i < 32; i = i + 1) begin
+              if (i >= PSIZE) begin
+                wbs_dat_o[i] <= 1'b0 ;
+              end else begin
+                wbs_dat_o[i] <= gonso_plus[i] ; if (wstrb[i]) gonso_plus[i] <= wbs_dat_i[i];
               end
             end
-            gonso_color_reg_addr : begin
-              for (i = 0; i < 32; i = i + 1) begin
-                if (i >= 8) begin
-                  wbs_dat_o[i] <= 1'b0 ;
-                end else begin
-                  wbs_dat_o[i] <= gonso_color[i] ; if (wstrb[i]) gonso_color[i] <= wbs_dat_i[i];
-                end
+          end
+          gonso_color_reg_addr : begin
+            for (i = 0; i < 32; i = i + 1) begin
+              if (i >= 8) begin
+                wbs_dat_o[i] <= 1'b0 ;
+              end else begin
+                wbs_dat_o[i] <= gonso_color[i] ; if (wstrb[i]) gonso_color[i] <= wbs_dat_i[i];
               end
             end
-          endcase
-
-          cs_n <= 1'b1;
-
-        end
+          end
+        endcase
+        cs_n <= 1'b1;
 	ready     <= 1'b1;
       end else begin
         cs_n      <= 1'b1;
