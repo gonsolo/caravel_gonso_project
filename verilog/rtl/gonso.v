@@ -55,9 +55,6 @@ module gonso (
         reg  [19:0]     gonso_plus      ;
         reg  [7:0]      gonso_color     ;
         reg             ready           ;
-        reg [3:0]       w_count         ;
-        reg [5:0]       w_first         ;
-        reg [5:0]       w_last          ;
         reg             start           ;
         reg [5:0]       addr0           ;
         reg [7:0]       wdata0          ;
@@ -99,9 +96,6 @@ module gonso (
                         gonso         <= {(20){1'b0}};
                         gonso_plus    <= {(20){1'b0}};
                         gonso_color   <= {(8){1'b0}};
-                        w_count       <= 4'b0000;
-                        w_first       <= {(6){1'b0}};
-                        w_last        <= {(6){1'b0}};
                         start         <= 1'b0;
                 end else begin
 
