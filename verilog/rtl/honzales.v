@@ -2,6 +2,7 @@ module Honzales(
   input         clock,
   input         reset,
   input  [19:0] io_input,
+  input         io_valid,
   output [19:0] io_output,
   output [7:0]  io_unused,
   input  [7:0]  io_color_in,
@@ -12,9 +13,9 @@ module Honzales(
 `endif // RANDOMIZE_REG_INIT
   reg [7:0] counterValue; // @[Counter.scala 62:40]
   wire [7:0] _wrap_value_T_1 = counterValue + 8'h1; // @[Counter.scala 78:24]
-  assign io_output = io_input + 20'h1; // @[Honzales.scala 16:25]
-  assign io_unused = counterValue; // @[Honzales.scala 21:19]
-  assign io_color_out = io_color_in + 8'h80; // @[Honzales.scala 23:31]
+  assign io_output = io_input + 20'h1; // @[Honzales.scala 17:25]
+  assign io_unused = counterValue; // @[Honzales.scala 22:19]
+  assign io_color_out = io_color_in + 8'h80; // @[Honzales.scala 24:31]
   always @(posedge clock) begin
     if (reset) begin // @[Counter.scala 62:40]
       counterValue <= 8'h0; // @[Counter.scala 62:40]
@@ -72,32 +73,36 @@ module Testbench(
   input         clock,
   input         reset,
   input  [19:0] io_input,
+  input         io_valid,
   output [19:0] io_output,
   output [7:0]  io_unused,
   input  [7:0]  io_color_in,
   output [7:0]  io_color_out
 );
-  wire  honzales_clock; // @[Testbench.scala 17:24]
-  wire  honzales_reset; // @[Testbench.scala 17:24]
-  wire [19:0] honzales_io_input; // @[Testbench.scala 17:24]
-  wire [19:0] honzales_io_output; // @[Testbench.scala 17:24]
-  wire [7:0] honzales_io_unused; // @[Testbench.scala 17:24]
-  wire [7:0] honzales_io_color_in; // @[Testbench.scala 17:24]
-  wire [7:0] honzales_io_color_out; // @[Testbench.scala 17:24]
-  Honzales honzales ( // @[Testbench.scala 17:24]
+  wire  honzales_clock; // @[Testbench.scala 18:24]
+  wire  honzales_reset; // @[Testbench.scala 18:24]
+  wire [19:0] honzales_io_input; // @[Testbench.scala 18:24]
+  wire  honzales_io_valid; // @[Testbench.scala 18:24]
+  wire [19:0] honzales_io_output; // @[Testbench.scala 18:24]
+  wire [7:0] honzales_io_unused; // @[Testbench.scala 18:24]
+  wire [7:0] honzales_io_color_in; // @[Testbench.scala 18:24]
+  wire [7:0] honzales_io_color_out; // @[Testbench.scala 18:24]
+  Honzales honzales ( // @[Testbench.scala 18:24]
     .clock(honzales_clock),
     .reset(honzales_reset),
     .io_input(honzales_io_input),
+    .io_valid(honzales_io_valid),
     .io_output(honzales_io_output),
     .io_unused(honzales_io_unused),
     .io_color_in(honzales_io_color_in),
     .io_color_out(honzales_io_color_out)
   );
-  assign io_output = honzales_io_output; // @[Testbench.scala 19:22]
-  assign io_unused = honzales_io_unused; // @[Testbench.scala 20:22]
-  assign io_color_out = honzales_io_color_out; // @[Testbench.scala 22:25]
+  assign io_output = honzales_io_output; // @[Testbench.scala 21:22]
+  assign io_unused = honzales_io_unused; // @[Testbench.scala 22:22]
+  assign io_color_out = honzales_io_color_out; // @[Testbench.scala 24:25]
   assign honzales_clock = clock;
   assign honzales_reset = reset;
-  assign honzales_io_input = io_input; // @[Testbench.scala 18:21]
-  assign honzales_io_color_in = io_color_in; // @[Testbench.scala 21:24]
+  assign honzales_io_input = io_input; // @[Testbench.scala 19:21]
+  assign honzales_io_valid = io_valid; // @[Testbench.scala 20:21]
+  assign honzales_io_color_in = io_color_in; // @[Testbench.scala 23:24]
 endmodule
