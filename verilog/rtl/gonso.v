@@ -34,121 +34,117 @@ module gonso (
         input  wire        wbs_we_i  , // Wishbone write (1:write, 0:read)
         input  wire [31:0] wbs_dat_i , // Wishbone data output
         input  wire [3:0]  wbs_sel_i , // Wishbone byte enable
-        output wire [31:0] wbs_dat_o , // Wishbone data input
+        output reg  [31:0] wbs_dat_o , // Wishbone data input
         output wire        wbs_ack_o , // Wishbone acknowlegement
 
         // Interrupt
-        output wire        irq         // Interrupt
+        output reg irq         // Interrupt
 );
 
-        wire             controller_en   ;
-        wire [19:0] gonso;
-        wire [19:0] gonso_plus;
-        wire [7:0]       gonso_color;
-        wire             tick            ;
-        wire             valid           ;
-        wire             polarity        ;
-        wire             bit_value       ;
-        wire             ready           ;
-        wire [3:0]       w_count         ;
-        wire [5:0] w_first         ;
-        wire [5:0] w_last          ;
-        wire             start           ;
-        wire             progress        ;
+        reg             controller_en   ;
+        reg  [19:0]     gonso           ;
+        reg  [19:0]     gonso_plus      ;
+        reg  [7:0]      gonso_color     ;
+        wire            tick            ;
+        wire            valid           ;
+        reg             polarity        ;
+        wire            bit_value       ;
+        reg             ready           ;
+        reg [3:0]       w_count         ;
+        reg [5:0]       w_first         ;
+        reg [5:0]       w_last          ;
+        reg             start           ;
+        wire            progress        ;
+        reg             cs0_n           ;
+        wire            we0_n           ;
+        reg [5:0]       addr0           ;
+        reg [7:0]       wdata0          ;
+        wire [7:0]      rdata0          ;
+        wire            cs1_n           ;
+        wire [5:0]      addr1           ;
+        wire [7:0]      rdata1          ;
 
-        wire             cs0_n           ;
-        wire             we0_n           ;
-        wire [5:0]       addr0           ;
-        wire [7:0]       wdata0          ;
-        wire [7:0]       rdata0          ;
-        wire             cs1_n           ;
-        wire [5:0] addr1           ;
-        wire [7:0]       rdata1          ;
+//        gonso_registers #(
+//        ) i_registers (
+//                .rst_n           (rst_n        ),
+//                .clk             (clk          ),
+//                .controller_en   (controller_en),
+//                .gonso           (gonso),
+//                .gonso_plus      (gonso_plus),
+//                .gonso_color     (gonso_color),
+//                .polarity        (polarity     ),
+//                .w_count         (w_count      ),
+//                .w_first         (w_first      ),
+//                .w_last          (w_last       ),
+//                .start           (start        ),
+//                .progress        (progress     ),
+//                .wbs_cyc_i       (wbs_cyc_i    ),
+//                .wbs_stb_i       (wbs_stb_i    ),
+//                .wishbone_address   (wishbone_address),
+//                .wbs_we_i        (wbs_we_i     ),
+//                .wbs_dat_i       (wbs_dat_i    ),
+//                .wbs_sel_i       (wbs_sel_i    ),
+//                .wbs_dat_o       (wbs_dat_o    ),
+//                .wbs_ack_o       (wbs_ack_o    ),
+//                .irq             (irq          ),
+//                .cs0_n            (cs0_n        ),
+//                .we0_n            (we0_n        ),
+//                .addr0            (addr0        ),
+//                .wdata0           (wdata0       ),
+//                .rdata0           (rdata0       )
+//        );
 
-        gonso_registers #(
-        ) i_registers (
-                .rst_n           (rst_n        ),
-                .clk             (clk          ),
-                .controller_en   (controller_en),
-                .gonso           (gonso),
-                .gonso_plus      (gonso_plus),
-                .gonso_color     (gonso_color),
-                .polarity        (polarity     ),
-                .w_count         (w_count      ),
-                .w_first         (w_first      ),
-                .w_last          (w_last       ),
-                .start           (start        ),
-                .progress        (progress     ),
-                .wbs_cyc_i       (wbs_cyc_i    ),
-                .wbs_stb_i       (wbs_stb_i    ),
-                .wishbone_address   (wishbone_address),
-                .wbs_we_i        (wbs_we_i     ),
-                .wbs_dat_i       (wbs_dat_i    ),
-                .wbs_sel_i       (wbs_sel_i    ),
-                .wbs_dat_o       (wbs_dat_o    ),
-                .wbs_ack_o       (wbs_ack_o    ),
-                .irq             (irq          ),
-                .cs0_n            (cs0_n        ),
-                .we0_n            (we0_n        ),
-                .addr0            (addr0        ),
-                .wdata0           (wdata0       ),
-                .rdata0           (rdata0       )
-        );
+//endmodule
 
-endmodule
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Registers
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-module gonso_registers (
-
-        input                   rst_n           , // Asynchronous reset (active low)
-        input                   clk             , // Clock (rising edge)
-
-        // Configuration
-        output reg              controller_en   , // Controller enable (active high)
-        output reg  [19:0] gonso,            // gonso
-        output reg  [19:0] gonso_plus      , // gonso plus
-        output reg  [7:0] gonso_color           , // gonso color
-        output reg              polarity        , // Polarity of output signal
-
-        // Sequencer
-        output reg  [3:0]       w_count         , // Number of iteration
-        output reg  [5:0] w_first         , // First word index
-        output reg  [5:0] w_last          , // Last word index
-        output reg              start           , // Start strobe (active high)
-        input  wire             progress        , // Progress status
-
-        // Wishbone bus
-        input  wire             wbs_cyc_i       , // Wishbone strobe/request
-        input  wire             wbs_stb_i       , // Wishbone strobe/request
-        input  wire [31:0]      wishbone_address,
-        input  wire             wbs_we_i        , // Wishbone write (1:write, 0:read)
-        input  wire [31:0]      wbs_dat_i       , // Wishbone data output
-        input  wire [ 3:0]      wbs_sel_i       , // Wishbone byte enable
-        output reg  [31:0]      wbs_dat_o       , // Wishbone data input
-        output wire             wbs_ack_o       , // Wishbone acknowlegement
-
-        // Interrupt
-        output reg              irq             , // Interrupt
-
-        // Memory
-        output reg              cs0_n            , // Chip select (active low)
-        output wire             we0_n            , // Write enable (active low)
-        output reg  [5:0]       addr0            , // Adress bus
-        output reg  [7:0]       wdata0           , // Data bus (write)
-        input  wire [7:0]       rdata0             // Data bus (read)
-);
+//module gonso_registers (
+//
+//        input                   rst_n           , // Asynchronous reset (active low)
+//        input                   clk             , // Clock (rising edge)
+//
+//        // Configuration
+//        output reg              controller_en   , // Controller enable (active high)
+//        output reg  [19:0] gonso,            // gonso
+//        output reg  [19:0] gonso_plus      , // gonso plus
+//        output reg  [7:0] gonso_color           , // gonso color
+//        output reg              polarity        , // Polarity of output signal
+//
+//        // Sequencer
+//        output reg  [3:0]       w_count         , // Number of iteration
+//        output reg  [5:0] w_first         , // First word index
+//        output reg  [5:0] w_last          , // Last word index
+//        output reg              start           , // Start strobe (active high)
+//        input  wire             progress        , // Progress status
+//
+//        // Wishbone bus
+//        input  wire             wbs_cyc_i       , // Wishbone strobe/request
+//        input  wire             wbs_stb_i       , // Wishbone strobe/request
+//        input  wire [31:0]      wishbone_address,
+//        input  wire             wbs_we_i        , // Wishbone write (1:write, 0:read)
+//        input  wire [31:0]      wbs_dat_i       , // Wishbone data output
+//        input  wire [ 3:0]      wbs_sel_i       , // Wishbone byte enable
+//        output reg  [31:0]      wbs_dat_o       , // Wishbone data input
+//        output wire             wbs_ack_o       , // Wishbone acknowlegement
+//
+//        // Interrupt
+//        output reg              irq             , // Interrupt
+//
+//        // Memory
+//        output reg              cs0_n            , // Chip select (active low)
+//        output wire             we0_n            , // Write enable (active low)
+//        output reg  [5:0]       addr0            , // Adress bus
+//        output reg  [7:0]       wdata0           , // Data bus (write)
+//        input  wire [7:0]       rdata0             // Data bus (read)
+//);
 
         localparam gonso_reg_addr              = 32'h30030004;
         localparam gonso_plus_reg_addr         = 32'h30030008;
         localparam gonso_color_reg_addr        = 32'h3003000c;
 
-        wire        valid;
+        //wire        valid;
         wire [31:0] wstrb;
 
         reg         irq_en;
-        reg         ready;
+        //reg         ready;
         reg         last_progress;
 
         integer i = 0;
