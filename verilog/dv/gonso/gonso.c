@@ -99,17 +99,23 @@ struct triangle triangles[34] =  {
 };
 #endif
 
-void send_triangle(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
+//void send_triangle(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
+void send_triangle(struct triangle triangle) {
         uint32_t float_as_int;
-        gonso_memcpy(&float_as_int, &a, sizeof(float_as_int));
+        gonso_memcpy(&float_as_int, &triangle.a.x, sizeof(float_as_int));
         reg_mprj_gonso_float  = float_as_int;
 }
 
 void send_triangles() {
-        send_triangle(-1.0, 1.74846e-07, -1.0,  -1.0 ,  1.74846e-07 ,  1.0 ,  1.0 ,  -1.74846e-07 ,  1.0 );
-        send_triangle(-1.0, 1.74846e-07, -1.0,  1.0 ,  -1.74846e-07 ,  1.0 ,  1.0 ,  -1.74846e-07 ,  -1.0 );
-        send_triangle( 1.0, 2.0 ,  1.0 ,  -1.0 ,  2.0 ,  1.0 ,  -1.0 ,  2.0 ,  -1.0 );
-        send_triangle( 1.0, 2.0 ,  1.0 ,  -1.0 ,  2.0 ,  -1.0 ,  1.0 ,  2.0 ,  -1.0 );
+        struct point a = {-1.f, +0.f, -1.f};
+        struct point b = {-1.f, +0.f, +1.f};
+        struct point c = {+1.f, +0.f, +1.f};
+        struct triangle triangle = {a, b, c};
+        send_triangle(triangle);
+        //send_triangle(-1.0, 1.74846e-07, -1.0,  -1.0 ,  1.74846e-07 ,  1.0 ,  1.0 ,  -1.74846e-07 ,  1.0 );
+        //send_triangle(-1.0, 1.74846e-07, -1.0,  1.0 ,  -1.74846e-07 ,  1.0 ,  1.0 ,  -1.74846e-07 ,  -1.0 );
+        //send_triangle( 1.0, 2.0 ,  1.0 ,  -1.0 ,  2.0 ,  1.0 ,  -1.0 ,  2.0 ,  -1.0 );
+        //send_triangle( 1.0, 2.0 ,  1.0 ,  -1.0 ,  2.0 ,  -1.0 ,  1.0 ,  2.0 ,  -1.0 );
 }
 #if 0
 // Cornell box triangles (Cornell box with tall box, no small box)
