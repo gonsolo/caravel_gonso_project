@@ -54,7 +54,6 @@ module gonso (
         reg  [19:0]     gonso           ;
         reg  [19:0]     gonso_plus      ;
         reg  [7:0]      gonso_color     ;
-        reg             polarity        ;
         reg             ready           ;
         reg [3:0]       w_count         ;
         reg [5:0]       w_first         ;
@@ -99,7 +98,6 @@ module gonso (
                         ready         <= 1'b0;
                         wbs_dat_o     <= 32'h00000000;
                         controller_en <= 1'b0;
-                        polarity      <= 1'b0;
                         gonso         <= {(20){1'b0}};
                         gonso_plus    <= {(20){1'b0}};
                         gonso_color   <= {(8){1'b0}};
