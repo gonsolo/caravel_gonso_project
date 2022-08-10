@@ -38,19 +38,11 @@ module gonso (
         output wire        wbs_ack_o
 );
 
-        wire            tick            ;
         wire            valid           ;
-        wire            bit_value       ;
-        wire            we0_n           ;
-        wire [7:0]      rdata0          ;
-        wire            cs1_n           ;
-        wire [5:0]      addr1           ;
-        wire [7:0]      rdata1          ;
         wire [31:0]     wstrb           ;
         wire [19:0]     gonso_plus_wire ;
         wire [7:0]      gonso_color_out_wire;
 
-        reg             controller_en   ;
         reg  [19:0]     gonso           ;
         reg  [19:0]     gonso_plus      ;
         reg  [7:0]      gonso_color     ;
@@ -69,7 +61,6 @@ module gonso (
         assign valid     = wbs_cyc_i && wbs_stb_i;
         assign wstrb     = {{8{wbs_sel_i[3]}}, {8{wbs_sel_i[2]}}, {8{wbs_sel_i[1]}}, {8{wbs_sel_i[0]}}} & {32{wbs_we_i}};
         assign wbs_ack_o = ready;
-        assign we0_n      = 1'b0;
 
         Honzales honzales (
                 .clock(clk),
@@ -92,7 +83,6 @@ module gonso (
                         wdata0         <= 8'h00;
                         ready         <= 1'b0;
                         wbs_dat_o     <= 32'h00000000;
-                        controller_en <= 1'b0;
                         gonso         <= {(20){1'b0}};
                         gonso_plus    <= {(20){1'b0}};
                         gonso_color   <= {(8){1'b0}};
@@ -136,6 +126,5 @@ module gonso (
                         end
                 end
         end
-
 endmodule
 
