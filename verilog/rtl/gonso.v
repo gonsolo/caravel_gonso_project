@@ -47,9 +47,6 @@ module gonso (
         reg  [19:0]     gonso_plus              ;
         reg  [7:0]      gonso_color             ;
         reg             ready                   ;
-        reg             start                   ;
-        reg [5:0]       addr0                   ;
-        reg [7:0]       wdata0                  ;
         reg [7:0]       gonso_color_in_wire     ;
 
         localparam      gonso_reg_addr              = 32'h30030004;
@@ -79,14 +76,11 @@ module gonso (
 
         always @(negedge rst_n or posedge clk) begin
                 if (rst_n == 1'b0) begin
-                        addr0          <= {(6){1'b0}};
-                        wdata0         <= 8'h00;
                         ready         <= 1'b0;
                         wbs_dat_o     <= 32'h00000000;
                         gonso         <= {(20){1'b0}};
                         gonso_plus    <= {(20){1'b0}};
                         gonso_color   <= {(8){1'b0}};
-                        start         <= 1'b0;
                 end else begin
 
                         if (valid && !ready) begin
