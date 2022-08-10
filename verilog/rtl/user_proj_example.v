@@ -82,7 +82,6 @@ module user_proj_example(
   wire [7:0] blabla;
  
   gonso #(
-    .ASIZE ( 6),
     .PSIZE (20)
   ) i_gonso (
 `ifdef USE_POWER_PINS

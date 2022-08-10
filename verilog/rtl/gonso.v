@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////
 
 module gonso #(
-        parameter ASIZE  = 32        , // Size of memory buffer bus (bits)
         parameter PSIZE  = 32          // Size of prescaler counter(bits)
 )(
         `ifdef USE_POWER_PINS
@@ -54,22 +53,21 @@ module gonso #(
         wire             bit_value       ;
         wire             ready           ;
         wire [3:0]       w_count         ;
-        wire [ASIZE-1:0] w_first         ;
-        wire [ASIZE-1:0] w_last          ;
+        wire [5:0] w_first         ;
+        wire [5:0] w_last          ;
         wire             start           ;
         wire             progress        ;
 
         wire             cs0_n           ;
         wire             we0_n           ;
-        wire [ASIZE-1:0] addr0           ;
+        wire [5:0] addr0           ;
         wire [7:0]       wdata0          ;
         wire [7:0]       rdata0          ;
         wire             cs1_n           ;
-        wire [ASIZE-1:0] addr1           ;
+        wire [5:0] addr1           ;
         wire [7:0]       rdata1          ;
 
         gonso_registers #(
-                .ASIZE(ASIZE),
                 .PSIZE(PSIZE)
         ) i_registers (
                 .rst_n           (rst_n        ),
@@ -106,7 +104,6 @@ endmodule
 // Registers
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 module gonso_registers #(
-        parameter ASIZE = 32                    , // Size of memory buffer bus (bits)
         parameter PSIZE = 32                      // Size of prescaler counter(bits)
 )(
 
@@ -122,8 +119,8 @@ module gonso_registers #(
 
         // Sequencer
         output reg  [3:0]       w_count         , // Number of iteration
-        output reg  [ASIZE-1:0] w_first         , // First word index
-        output reg  [ASIZE-1:0] w_last          , // Last word index
+        output reg  [5:0] w_first         , // First word index
+        output reg  [5:0] w_last          , // Last word index
         output reg              start           , // Start strobe (active high)
         input  wire             progress        , // Progress status
 
@@ -143,7 +140,7 @@ module gonso_registers #(
         // Memory
         output reg              cs_n            , // Chip select (active low)
         output wire             we_n            , // Write enable (active low)
-        output reg  [ASIZE-1:0] addr            , // Adress bus
+        output reg  [5:0] addr            , // Adress bus
         output reg  [7:0]       wdata           , // Data bus (write)
         input  wire [7:0]       rdata             // Data bus (read)
 );
@@ -188,7 +185,7 @@ module gonso_registers #(
         always @(negedge rst_n or posedge clk) begin
                 if (rst_n == 1'b0) begin
                         cs_n          <= 1'b1;
-                        addr          <= {(ASIZE){1'b0}};
+                        addr          <= {(6){1'b0}};
                         wdata         <= 8'h00;
                         ready         <= 1'b0;
                         wbs_dat_o     <= 32'h00000000;
@@ -199,8 +196,8 @@ module gonso_registers #(
                         gonso_plus    <= {(PSIZE){1'b0}};
                         gonso_color   <= {(8){1'b0}};
                         w_count       <= 4'b0000;
-                        w_first       <= {(ASIZE){1'b0}};
-                        w_last        <= {(ASIZE){1'b0}};
+                        w_first       <= {(6){1'b0}};
+                        w_last        <= {(6){1'b0}};
                         start         <= 1'b0;
                         irq           <= 1'b0;
                         last_progress <= 1'b0;
