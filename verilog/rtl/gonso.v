@@ -58,7 +58,7 @@ module gonso (
 
         wire             cs0_n           ;
         wire             we0_n           ;
-        wire [5:0] addr0           ;
+        wire [5:0]       addr0           ;
         wire [7:0]       wdata0          ;
         wire [7:0]       rdata0          ;
         wire             cs1_n           ;
@@ -88,11 +88,11 @@ module gonso (
                 .wbs_dat_o       (wbs_dat_o    ),
                 .wbs_ack_o       (wbs_ack_o    ),
                 .irq             (irq          ),
-                .cs_n            (cs0_n        ),
-                .we_n            (we0_n        ),
-                .addr            (addr0        ),
-                .wdata           (wdata0       ),
-                .rdata           (rdata0       )
+                .cs0_n            (cs0_n        ),
+                .we0_n            (we0_n        ),
+                .addr0            (addr0        ),
+                .wdata0           (wdata0       ),
+                .rdata0           (rdata0       )
         );
 
 endmodule
@@ -133,11 +133,11 @@ module gonso_registers (
         output reg              irq             , // Interrupt
 
         // Memory
-        output reg              cs_n            , // Chip select (active low)
-        output wire             we_n            , // Write enable (active low)
-        output reg  [5:0] addr            , // Adress bus
-        output reg  [7:0]       wdata           , // Data bus (write)
-        input  wire [7:0]       rdata             // Data bus (read)
+        output reg              cs0_n            , // Chip select (active low)
+        output wire             we0_n            , // Write enable (active low)
+        output reg  [5:0]       addr0            , // Adress bus
+        output reg  [7:0]       wdata0           , // Data bus (write)
+        input  wire [7:0]       rdata0             // Data bus (read)
 );
 
         localparam gonso_reg_addr              = 32'h30030004;
@@ -156,7 +156,7 @@ module gonso_registers (
         assign valid     = wbs_cyc_i && wbs_stb_i;
         assign wstrb     = {{8{wbs_sel_i[3]}}, {8{wbs_sel_i[2]}}, {8{wbs_sel_i[1]}}, {8{wbs_sel_i[0]}}} & {32{wbs_we_i}};
         assign wbs_ack_o = ready;
-        assign we_n      = 1'b0;
+        assign we0_n      = 1'b0;
 
         wire [19:0]        gonso_plus_wire;
         reg [7:0]               gonso_color_in_wire;
@@ -179,9 +179,9 @@ module gonso_registers (
 
         always @(negedge rst_n or posedge clk) begin
                 if (rst_n == 1'b0) begin
-                        cs_n          <= 1'b1;
-                        addr          <= {(6){1'b0}};
-                        wdata         <= 8'h00;
+                        cs0_n          <= 1'b1;
+                        addr0          <= {(6){1'b0}};
+                        wdata0         <= 8'h00;
                         ready         <= 1'b0;
                         wbs_dat_o     <= 32'h00000000;
                         controller_en <= 1'b0;
@@ -229,10 +229,10 @@ module gonso_registers (
                                                 end
                                         end
                                 endcase
-                                cs_n <= 1'b1;
+                                cs0_n <= 1'b1;
                                 ready     <= 1'b1;
                         end else begin
-                                cs_n      <= 1'b1;
+                                cs0_n      <= 1'b1;
                                 ready     <= 1'b0;
                         end
 
