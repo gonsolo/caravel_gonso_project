@@ -18,9 +18,7 @@
 //
 ////////////////////////////////////////////////////////////////////////////
 
-module gonso #(
-        parameter PSIZE  = 32          // Size of prescaler counter(bits)
-)(
+module gonso (
         `ifdef USE_POWER_PINS
         inout  wire        vccd1     , // User area 1 1.8V supply
         inout  wire        vssd1     , // User area 1 digital ground
@@ -44,8 +42,8 @@ module gonso #(
 );
 
         wire             controller_en   ;
-        wire [PSIZE-1:0] gonso;
-        wire [PSIZE-1:0] gonso_plus;
+        wire [19:0] gonso;
+        wire [19:0] gonso_plus;
         wire [7:0]       gonso_color;
         wire             tick            ;
         wire             valid           ;
@@ -68,7 +66,6 @@ module gonso #(
         wire [7:0]       rdata1          ;
 
         gonso_registers #(
-                .PSIZE(PSIZE)
         ) i_registers (
                 .rst_n           (rst_n        ),
                 .clk             (clk          ),
@@ -103,17 +100,15 @@ endmodule
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Registers
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-module gonso_registers #(
-        parameter PSIZE = 32                      // Size of prescaler counter(bits)
-)(
+module gonso_registers (
 
         input                   rst_n           , // Asynchronous reset (active low)
         input                   clk             , // Clock (rising edge)
 
         // Configuration
         output reg              controller_en   , // Controller enable (active high)
-        output reg  [PSIZE-1:0] gonso,            // gonso
-        output reg  [PSIZE-1:0] gonso_plus      , // gonso plus
+        output reg  [19:0] gonso,            // gonso
+        output reg  [19:0] gonso_plus      , // gonso plus
         output reg  [7:0] gonso_color           , // gonso color
         output reg              polarity        , // Polarity of output signal
 
@@ -163,7 +158,7 @@ module gonso_registers #(
         assign wbs_ack_o = ready;
         assign we_n      = 1'b0;
 
-        wire [PSIZE-1:0]        gonso_plus_wire;
+        wire [19:0]        gonso_plus_wire;
         reg [7:0]               gonso_color_in_wire;
         wire [7:0]              gonso_color_out_wire;
 
@@ -192,8 +187,8 @@ module gonso_registers #(
                         controller_en <= 1'b0;
                         irq_en        <= 1'b0;
                         polarity      <= 1'b0;
-                        gonso         <= {(PSIZE){1'b0}};
-                        gonso_plus    <= {(PSIZE){1'b0}};
+                        gonso         <= {(20){1'b0}};
+                        gonso_plus    <= {(20){1'b0}};
                         gonso_color   <= {(8){1'b0}};
                         w_count       <= 4'b0000;
                         w_first       <= {(6){1'b0}};
@@ -207,7 +202,7 @@ module gonso_registers #(
                                 case (wishbone_address)
                                         gonso_reg_addr : begin
                                                 for (i = 0; i < 32; i = i + 1) begin
-                                                        if (i >= PSIZE) begin
+                                                        if (i >= 20) begin
                                                                 wbs_dat_o[i] <= 1'b0 ;
                                                         end else begin
                                                                 wbs_dat_o[i] <= gonso[i] ; if (wstrb[i]) gonso[i] <= wbs_dat_i[i];
@@ -217,7 +212,7 @@ module gonso_registers #(
                                         end
                                         gonso_plus_reg_addr : begin
                                                 for (i = 0; i < 32; i = i + 1) begin
-                                                        if (i >= PSIZE) begin
+                                                        if (i >= 20) begin
                                                                 wbs_dat_o[i] <= 1'b0 ;
                                                         end else begin
                                                                 wbs_dat_o[i] <= gonso_plus[i] ; if (wstrb[i]) gonso_plus[i] <= wbs_dat_i[i];
