@@ -81,6 +81,7 @@ module gonso_tb;
     wait(checkbits == 16'hAB60);
     $display("Starting");
 
+
     wait (checkbits == 16'hAB61);
     $display("Writing image");
     image = $fopen("image.ppm", "w");

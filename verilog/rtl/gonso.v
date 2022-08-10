@@ -174,7 +174,6 @@ module string_led_registers #(
  );
 
   localparam
-    config_reg_addr             = 3'b00,
     gonso_reg_addr              = 3'b01,
     gonso_plus_reg_addr         = 3'b10,
     gonso_color_reg_addr        = 3'b11;
@@ -240,12 +239,6 @@ module string_led_registers #(
         if (wbs_adr_i[12] == 1'b0) begin // Register access
 
           case (wbs_addr)
-            config_reg_addr : begin
-              wbs_dat_o[31]   <= controller_en; if (wstrb[31]) controller_en <= wbs_dat_i[31];
-              wbs_dat_o[30]   <= irq_en       ; if (wstrb[30]) irq_en        <= wbs_dat_i[30];
-              wbs_dat_o[29]   <= polarity     ; if (wstrb[29]) polarity      <= wbs_dat_i[29];
-              wbs_dat_o[28:0] <= {(29){1'b0}};
-            end
             gonso_reg_addr : begin
               for (i = 0; i < 32; i = i + 1) begin
                 if (i >= PSIZE) begin

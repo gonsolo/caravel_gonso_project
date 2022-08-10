@@ -19,7 +19,6 @@
 #include <defs.h>
 //#include <stub.c>
 
-//#define reg_mprj_led_config       (*(volatile uint32_t*)0x30030000)
 #define reg_mprj_gonso            (*(volatile uint32_t*)0x30030004)
 #define reg_mprj_gonso_plus       (*(volatile uint32_t*)0x30030008)
 #define reg_mprj_gonso_color      (*(volatile uint32_t*)0x3003000C)
