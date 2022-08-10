@@ -20,37 +20,37 @@
 
 module gonso (
         `ifdef USE_POWER_PINS
-        inout  wire        vccd1     , // User area 1 1.8V supply
-        inout  wire        vssd1     , // User area 1 digital ground
+        inout  wire        vccd1                ,
+        inout  wire        vssd1                ,
         `endif
 
-        input  wire        rst_n     , // Asynchronous reset (active low)
-        input  wire        clk       , // Clock (rising edge)
+        input  wire        rst_n                ,       // Asynchronous reset (active low)
+        input  wire        clk                  ,
 
         // Wishbone bus
-        input  wire        wbs_cyc_i ,
-        input  wire        wbs_stb_i ,
-        input  wire [31:0] wishbone_address,
-        input  wire        wbs_we_i  ,          // Wishbone write (1:write, 0:read)
-        input  wire [31:0] wbs_dat_i ,
-        input  wire [3:0]  wbs_sel_i ,
-        output reg  [31:0] wbs_dat_o ,
+        input  wire        wbs_cyc_i            ,
+        input  wire        wbs_stb_i            ,
+        input  wire [31:0] wishbone_address     ,
+        input  wire        wbs_we_i             ,       // Wishbone write (1:write, 0:read)
+        input  wire [31:0] wbs_dat_i            ,
+        input  wire [3:0]  wbs_sel_i            ,
+        output reg  [31:0] wbs_dat_o            ,
         output wire        wbs_ack_o
 );
 
-        wire            valid           ;
-        wire [31:0]     wstrb           ;
-        wire [19:0]     gonso_plus_wire ;
-        wire [7:0]      gonso_color_out_wire;
+        wire            valid                   ;
+        wire [31:0]     wstrb                   ;
+        wire [19:0]     gonso_plus_wire         ;
+        wire [7:0]      gonso_color_out_wire    ;
 
-        reg  [19:0]     gonso           ;
-        reg  [19:0]     gonso_plus      ;
-        reg  [7:0]      gonso_color     ;
-        reg             ready           ;
-        reg             start           ;
-        reg [5:0]       addr0           ;
-        reg [7:0]       wdata0          ;
-        reg [7:0]       gonso_color_in_wire;
+        reg  [19:0]     gonso                   ;
+        reg  [19:0]     gonso_plus              ;
+        reg  [7:0]      gonso_color             ;
+        reg             ready                   ;
+        reg             start                   ;
+        reg [5:0]       addr0                   ;
+        reg [7:0]       wdata0                  ;
+        reg [7:0]       gonso_color_in_wire     ;
 
         localparam      gonso_reg_addr              = 32'h30030004;
         localparam      gonso_plus_reg_addr         = 32'h30030008;
