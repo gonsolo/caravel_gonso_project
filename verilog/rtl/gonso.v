@@ -35,16 +35,12 @@ module gonso (
         input  wire [31:0] wbs_dat_i ,
         input  wire [3:0]  wbs_sel_i ,
         output reg  [31:0] wbs_dat_o ,
-        output wire        wbs_ack_o ,
-
-        // Interrupt
-        output reg irq         // Interrupt
+        output wire        wbs_ack_o
 );
 
         wire            tick            ;
         wire            valid           ;
         wire            bit_value       ;
-        wire            progress        ;
         wire            we0_n           ;
         wire [7:0]      rdata0          ;
         wire            cs1_n           ;
@@ -67,8 +63,6 @@ module gonso (
         reg             cs0_n           ;
         reg [5:0]       addr0           ;
         reg [7:0]       wdata0          ;
-        reg             irq_en;
-        reg             last_progress;
         reg [7:0]       gonso_color_in_wire;
 
         localparam      gonso_reg_addr              = 32'h30030004;
@@ -105,7 +99,6 @@ module gonso (
                         ready         <= 1'b0;
                         wbs_dat_o     <= 32'h00000000;
                         controller_en <= 1'b0;
-                        irq_en        <= 1'b0;
                         polarity      <= 1'b0;
                         gonso         <= {(20){1'b0}};
                         gonso_plus    <= {(20){1'b0}};
@@ -114,8 +107,6 @@ module gonso (
                         w_first       <= {(6){1'b0}};
                         w_last        <= {(6){1'b0}};
                         start         <= 1'b0;
-                        irq           <= 1'b0;
-                        last_progress <= 1'b0;
                 end else begin
 
                         if (valid && !ready) begin
@@ -155,15 +146,6 @@ module gonso (
                                 cs0_n      <= 1'b1;
                                 ready     <= 1'b0;
                         end
-
-                        if ((irq_en == 1'b1) && (last_progress == 1'b1) && (progress == 1'b0)) begin
-                                irq <= 1'b1;
-                        end else begin
-                                irq <= 1'b0;
-                        end
-
-                        last_progress <= progress;
-
                 end
         end
 

@@ -75,14 +75,14 @@ module user_proj_example(
   // LA
   assign la_data_out = {(128){1'b0}};
   
+  assign irq[1] = 1'b0;
   assign irq[2] = 1'b0;
   
   assign rst_n = ~wb_rst_i;
 
   wire [7:0] blabla;
  
-  gonso #(
-  ) i_gonso (
+  gonso i_gonso (
 `ifdef USE_POWER_PINS
 	.vccd1     (vccd1       ),
 	.vssd1     (vssd1       ),
@@ -97,9 +97,7 @@ module user_proj_example(
     .wbs_dat_i (wbs_dat_i),
     .wbs_sel_i (wbs_sel_i),
     .wbs_dat_o (wbs_dat_o),
-    .wbs_ack_o (wbs_ack_o),
-
-    .irq       (irq[1]      )
+    .wbs_ack_o (wbs_ack_o)
   );
 
 endmodule
