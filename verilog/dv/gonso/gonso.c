@@ -19,12 +19,21 @@
 #include <defs.h>
 //#include <stub.c>
 
-#define reg_mprj_gonso            (*(volatile uint32_t*)0x30030004)
-#define reg_mprj_gonso_plus       (*(volatile uint32_t*)0x30030008)
-#define reg_mprj_gonso_color      (*(volatile uint32_t*)0x3003000C)
+#define reg_mprj_gonso          (*(volatile uint32_t*)0x30030004)
+#define reg_mprj_gonso_plus     (*(volatile uint32_t*)0x30030008)
+#define reg_mprj_gonso_color    (*(volatile uint32_t*)0x3003000C)
 
-#define reg_mprj_gonso_float    (*(volatile uint32_t*)0x30030010)
+//#define reg_mprj_gonso_float    (*(volatile uint32_t*)0x30030010)
 
+#define register_triangle_a_x        (*(volatile uint32_t*)0x30030014)
+#define register_triangle_a_y        (*(volatile uint32_t*)0x30030018)
+#define register_triangle_a_z        (*(volatile uint32_t*)0x3003001C)
+#define register_triangle_b_x        (*(volatile uint32_t*)0x30030020)
+#define register_triangle_b_y        (*(volatile uint32_t*)0x30030024)
+#define register_triangle_b_z        (*(volatile uint32_t*)0x30030028)
+#define register_triangle_c_x        (*(volatile uint32_t*)0x3003002C)
+#define register_triangle_c_y        (*(volatile uint32_t*)0x30030030)
+#define register_triangle_c_z        (*(volatile uint32_t*)0x30030034)
 
 void gonso_memcpy(void *dest, void *src, uint32_t n)
 {
@@ -99,11 +108,23 @@ struct triangle triangles[34] =  {
 };
 #endif
 
+uint32_t float_as_uint32(float f) {
+        uint32_t u;
+        gonso_memcpy(&u, &f, sizeof(u));
+        return u;
+}
+
 //void send_triangle(float a, float b, float c, float d, float e, float f, float g, float h, float i) {
 void send_triangle(struct triangle triangle) {
-        uint32_t float_as_int;
-        gonso_memcpy(&float_as_int, &triangle.a.x, sizeof(float_as_int));
-        reg_mprj_gonso_float  = float_as_int;
+        register_triangle_a_x = float_as_uint32(triangle.a.x);
+        register_triangle_a_y = float_as_uint32(triangle.a.y);
+        register_triangle_a_z = float_as_uint32(triangle.a.z);
+        register_triangle_b_x = float_as_uint32(triangle.b.x);
+        register_triangle_b_y = float_as_uint32(triangle.b.y);
+        register_triangle_b_z = float_as_uint32(triangle.b.z);
+        register_triangle_c_x = float_as_uint32(triangle.c.x);
+        register_triangle_c_y = float_as_uint32(triangle.c.y);
+        register_triangle_c_z = float_as_uint32(triangle.c.z);
 }
 
 void send_triangles() {
