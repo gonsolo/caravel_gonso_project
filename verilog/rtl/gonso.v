@@ -19,7 +19,6 @@
 ////////////////////////////////////////////////////////////////////////////
 
 module gonso #(
-        parameter TECHNO =  1        , // TECHNO RAM (0:inferred, 1:SkyWater)
         parameter ASIZE  = 32        , // Size of memory buffer bus (bits)
         parameter PSIZE  = 32          // Size of prescaler counter(bits)
 )(
@@ -68,30 +67,6 @@ module gonso #(
         wire             cs1_n           ;
         wire [ASIZE-1:0] addr1           ;
         wire [7:0]       rdata1          ;
-
-        generic_sram_1rw1r #(
-                .TECHNO(TECHNO),
-                .ASIZE (ASIZE ),
-                .DSIZE (8     )
-        ) i_memory (
-                `ifdef USE_POWER_PINS
-                .vccd1    (vccd1 ),
-                .vssd1    (vssd1 ),
-                `endif
-                .clk      (clk   ),
-
-                // Port 0 (R/W)
-                .cs0_n    (cs0_n ),
-                .we0_n    (we0_n ),
-                .addr0    (addr0 ),
-                .wdata0   (wdata0),
-                .rdata0   (rdata0),
-
-                // Port 1 (R/W)
-                .cs1_n    (cs1_n ),
-                .addr1    (addr1 ),
-                .rdata1   (rdata1)
-        );
 
         gonso_registers #(
                 .ASIZE(ASIZE),
