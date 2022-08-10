@@ -179,7 +179,6 @@ module gonso_registers #(
 
         wire        valid;
         wire [31:0] wstrb;
-        //wire [1:0]  wbs_addr;
 
         reg         irq_en;
         reg         ready;
@@ -192,9 +191,9 @@ module gonso_registers #(
         assign wbs_ack_o = ready;
         assign we_n      = 1'b0;
 
-        wire [PSIZE-1:0]      gonso_plus_wire;
-        reg [7:0]            gonso_color_in_wire;
-        wire [7:0]            gonso_color_out_wire;
+        wire [PSIZE-1:0]        gonso_plus_wire;
+        reg [7:0]               gonso_color_in_wire;
+        wire [7:0]              gonso_color_out_wire;
 
         Honzales honzales (
                 .clock(clk),
@@ -207,7 +206,6 @@ module gonso_registers #(
 
         always @(posedge clk) begin
                 gonso_plus <= gonso_plus_wire;
-                //gonso_color <= 8'h80;
                 gonso_color_in_wire <= 8'h00;
                 gonso_color <= gonso_color_out_wire;
         end
