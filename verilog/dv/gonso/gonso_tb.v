@@ -61,7 +61,9 @@ module gonso_tb;
 
     // Repeat cycles of 1000 clock edges as needed to complete testbench
     // 100 * 1000 cycles take x 1m57s
-    repeat (300) begin
+    // 300 is needed with send_triangles (~6m)
+    // Otherwise 37 is enough (~40s)
+    repeat (37) begin
       repeat (1000) @(posedge clock);
     end
     $display("%c[1;31m",27);

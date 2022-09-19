@@ -236,7 +236,7 @@ void main() {
   // Flag start of the test
   reg_mprj_datal = 0xAB600000;
 
-  send_triangles();
+  //send_triangles();
 
   reg_mprj_gonso_plus   = 0x00000000;
   reg_mprj_gonso        = 0x00000042;
