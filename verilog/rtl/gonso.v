@@ -34,7 +34,7 @@ module gonso (
         input  wire        wbs_we_i             ,       // Wishbone write (1:write, 0:read)
         input  wire [31:0] wbs_dat_i            ,
         input  wire [3:0]  wbs_sel_i            ,
-        output reg  [31:0] wbs_dat_o            ,
+        output wire [31:0] wbs_dat_o            ,
         output wire        wbs_ack_o
 );
 
@@ -49,6 +49,10 @@ module gonso (
         reg  [7:0]      gonso_color             ;
         reg             ready                   ;
         reg [7:0]       gonso_color_in_wire     ;
+
+        reg [31:0]      wbs_dat_o_reg           ;
+
+        assign wbs_dat_o = wbs_dat_o_reg        ;
 
         localparam      gonso_reg_addr              = 32'h30030004;
         localparam      gonso_plus_reg_addr         = 32'h30030008;
@@ -69,7 +73,10 @@ module gonso (
                 .io_strobe(strobe),
                 .io_output(gonso_plus_wire),
                 .io_color_in(gonso_color_in_wire),
-                .io_color_out(gonso_color_out_wire)
+                .io_color_out(gonso_color_out_wire),
+                .io_wishbone_address(wishbone_address),
+                .io_wbs_dat_i(wbs_dat_i),
+                .io_wbs_dat_o(wbs_dat_o)
         );
 
         always @(posedge clk) begin
@@ -81,7 +88,7 @@ module gonso (
         always @(negedge rst_n or posedge clk) begin
                 if (rst_n == 1'b0) begin
                         ready         <= 1'b0;
-                        wbs_dat_o     <= 32'h00000000;
+                        wbs_dat_o_reg <= 32'h00000000;
                         gonso         <= {(20){1'b0}};
                         gonso_plus    <= {(20){1'b0}};
                         gonso_color   <= {(8){1'b0}};
@@ -90,15 +97,15 @@ module gonso (
                         if (valid && !ready) begin
                                 case (wishbone_address)
                                         gonso_reg_addr : begin
-                                                wbs_dat_o <= gonso;
+                                                wbs_dat_o_reg <= gonso;
                                                 if (strobe) gonso <= wbs_dat_i;
                                         end
                                         gonso_plus_reg_addr : begin
-                                                wbs_dat_o <= gonso_plus;
+                                                wbs_dat_o_reg <= gonso_plus;
                                                 if (strobe) gonso_plus <= wbs_dat_i;
                                         end
                                         gonso_color_reg_addr : begin
-                                                wbs_dat_o <= gonso_color;
+                                                wbs_dat_o_reg <= gonso_color;
                                                 if (strobe) gonso_color <= wbs_dat_i;
                                         end
                                 endcase
