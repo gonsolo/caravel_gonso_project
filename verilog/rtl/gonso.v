@@ -40,6 +40,7 @@ module gonso (
 
         wire            valid                   ;
         wire [31:0]     wstrb                   ;
+        wire            strobe                  ;
         wire [19:0]     gonso_plus_wire         ;
         wire [7:0]      gonso_color_out_wire    ;
 
@@ -57,6 +58,7 @@ module gonso (
 
         assign valid     = wbs_cyc_i && wbs_stb_i;
         assign wstrb     = {{8{wbs_sel_i[3]}}, {8{wbs_sel_i[2]}}, {8{wbs_sel_i[1]}}, {8{wbs_sel_i[0]}}} & {32{wbs_we_i}};
+        assign strobe    = wstrb[0];
         assign wbs_ack_o = ready;
 
         Honzales honzales (
@@ -91,7 +93,8 @@ module gonso (
                                                         if (i >= 20) begin
                                                                 wbs_dat_o[i] <= 1'b0 ;
                                                         end else begin
-                                                                wbs_dat_o[i] <= gonso[i] ; if (wstrb[i]) gonso[i] <= wbs_dat_i[i];
+                                                                wbs_dat_o[i] <= gonso[i] ;
+                                                                if (strobe) gonso[i] <= wbs_dat_i[i];
 
                                                         end
                                                 end
@@ -101,7 +104,8 @@ module gonso (
                                                         if (i >= 20) begin
                                                                 wbs_dat_o[i] <= 1'b0 ;
                                                         end else begin
-                                                                wbs_dat_o[i] <= gonso_plus[i] ; if (wstrb[i]) gonso_plus[i] <= wbs_dat_i[i];
+                                                                wbs_dat_o[i] <= gonso_plus[i] ;
+                                                                if (strobe) gonso_plus[i] <= wbs_dat_i[i];
                                                         end
                                                 end
                                         end
@@ -110,7 +114,8 @@ module gonso (
                                                         if (i >= 8) begin
                                                                 wbs_dat_o[i] <= 1'b0 ;
                                                         end else begin
-                                                                wbs_dat_o[i] <= gonso_color[i] ; if (wstrb[i]) gonso_color[i] <= wbs_dat_i[i];
+                                                                wbs_dat_o[i] <= gonso_color[i] ;
+                                                                if (strobe) gonso_color[i] <= wbs_dat_i[i];
                                                         end
                                                 end
                                         end
