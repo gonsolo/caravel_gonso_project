@@ -66,6 +66,7 @@ module gonso (
                 .reset(rst_n),
                 .io_input(gonso),
                 .io_valid(valid),
+                .io_strobe(strobe),
                 .io_output(gonso_plus_wire),
                 .io_color_in(gonso_color_in_wire),
                 .io_color_out(gonso_color_out_wire)
