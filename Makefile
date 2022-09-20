@@ -51,7 +51,7 @@ all: copy_and_verify
 cv: copy_and_verify
 copy_and_verify: copy verify-gonso-rtl show notify
 show:
-	gimp verilog/dv/gonso/image.ppm
+	#gimp verilog/dv/gonso/image.ppm
 notify:
 	$(shell notify-send Ready)
 cs: copy_and_synthesize
