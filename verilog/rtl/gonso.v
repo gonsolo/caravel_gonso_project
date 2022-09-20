@@ -90,35 +90,16 @@ module gonso (
                         if (valid && !ready) begin
                                 case (wishbone_address)
                                         gonso_reg_addr : begin
-                                                for (i = 0; i < 32; i = i + 1) begin
-                                                        if (i >= 20) begin
-                                                                wbs_dat_o[i] <= 1'b0 ;
-                                                        end else begin
-                                                                wbs_dat_o[i] <= gonso[i] ;
-                                                                if (strobe) gonso[i] <= wbs_dat_i[i];
-
-                                                        end
-                                                end
+                                                wbs_dat_o <= gonso;
+                                                if (strobe) gonso <= wbs_dat_i;
                                         end
                                         gonso_plus_reg_addr : begin
-                                                for (i = 0; i < 32; i = i + 1) begin
-                                                        if (i >= 20) begin
-                                                                wbs_dat_o[i] <= 1'b0 ;
-                                                        end else begin
-                                                                wbs_dat_o[i] <= gonso_plus[i] ;
-                                                                if (strobe) gonso_plus[i] <= wbs_dat_i[i];
-                                                        end
-                                                end
+                                                wbs_dat_o <= gonso_plus;
+                                                if (strobe) gonso_plus <= wbs_dat_i;
                                         end
                                         gonso_color_reg_addr : begin
-                                                for (i = 0; i < 32; i = i + 1) begin
-                                                        if (i >= 8) begin
-                                                                wbs_dat_o[i] <= 1'b0 ;
-                                                        end else begin
-                                                                wbs_dat_o[i] <= gonso_color[i] ;
-                                                                if (strobe) gonso_color[i] <= wbs_dat_i[i];
-                                                        end
-                                                end
+                                                wbs_dat_o <= gonso_color;
+                                                if (strobe) gonso_color <= wbs_dat_i;
                                         end
                                 endcase
                                 ready     <= 1'b1;
