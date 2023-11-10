@@ -19,7 +19,7 @@ export CARAVEL_ROOT?=$(PWD)/caravel
 PRECHECK_ROOT?=${HOME}/mpw_precheck
 MCW_ROOT?=$(PWD)/mgmt_core_wrapper
 SIM?=RTL
-GONSO?=NO_SIMULATION
+#GONSO?=NO_SIMULATION
 
 export SKYWATER_COMMIT=f70d8ca46961ff92719d8870a18a076370b85f6c
 export OPEN_PDKS_COMMIT?=41c0908b47130d5675ff8484255b43f66463a7d6
@@ -57,7 +57,7 @@ notify:
 cs: copy_and_synthesize
 copy_and_synthesize: copy user_proj_example
 copy:
-	cp ../../honzales/out/verilog/Testbench.v verilog/rtl/honzales.v
+	cp ../../honzales/out/verilog/Honzales.sv verilog/rtl/honzales.sv
 ec: edit_c
 edit_c:
 	vi verilog/dv/gonso/gonso.c
@@ -90,8 +90,7 @@ install:
 # Install DV setup
 .PHONY: simenv
 simenv:
-	# Gonso: Do not try to pull every simulation run
-	#docker pull efabless/dv:latest
+	docker pull efabless/dv:latest
 
 .PHONY: setup
 setup: install check-env install_mcw openlane pdk-with-volare
