@@ -1,0 +1,3 @@
+export OPENLANE_ROOT=/home/gonsolo/work/caravel/openlane
+export PDK_ROOT=/home/gonsolo/work/caravel/pdks
+export PDK=sky130A
