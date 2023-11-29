@@ -133,23 +133,7 @@ module counter #(
 );
 
     always @(posedge clk) begin
-        if (reset) begin
-            count <= 1'b0;
-            ready <= 1'b0;
-        end else begin
-            ready <= 1'b0;
-            if (~|la_write) begin
-                count <= count + 1'b1;
-            end
-            if (valid && !ready) begin
-                ready <= 1'b1;
-                rdata <= count;
-                if (wstrb[0]) count[7:0]   <= wdata[7:0];
-                if (wstrb[1]) count[15:8]  <= wdata[15:8];
-            end else if (|la_write) begin
-                count <= la_write & la_input;
-            end
-        end
+	count <= 16'h66;
     end
 
 endmodule
