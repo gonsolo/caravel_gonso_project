@@ -133,7 +133,7 @@ module counter #(
 );
 
     always @(posedge clk) begin
-	count <= 16'h66;
+	count <= 8'hFF;
     end
 
 endmodule

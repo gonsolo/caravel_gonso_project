@@ -20,14 +20,12 @@
 
 /*
 	IO Test:
-		- Configures MPRJ lower 8-IO pins as outputs
-		- Observes counter value through the MPRJ lower 8 IO pins (in the testbench)
+		- Configures MPRJ lower IO pins as outputs
+		- Observes counter value through the MPRJ lower IO pins (in the testbench)
 */
 
 int main()
 {
-	// Configure lower 8-IOs as user output
-	// Observe counter value in the testbench
 	reg_mprj_io_0 =  GPIO_MODE_USER_STD_OUTPUT;
 	reg_mprj_io_1 =  GPIO_MODE_USER_STD_OUTPUT;
 	reg_mprj_io_2 =  GPIO_MODE_USER_STD_OUTPUT;

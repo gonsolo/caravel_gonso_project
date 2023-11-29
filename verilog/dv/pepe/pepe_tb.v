@@ -26,17 +26,11 @@ module pepe_tb;
 
 	wire gpio;
 	wire [37:0] mprj_io;
-	wire [7:0] mprj_io_0;
+	wire [7:0] mprj_io_gonso;
 
-	assign mprj_io_0 = mprj_io[7:0];
-	// assign mprj_io_0 = {mprj_io[8:4],mprj_io[2:0]};
+	assign mprj_io_gonso = mprj_io[7:0];
 
 	assign mprj_io[3] = (CSB == 1'b1) ? 1'b1 : 1'bz;
-	// assign mprj_io[3] = 1'b1;
-
-	// External clock is used by default.  Make this artificially fast for the
-	// simulation.  Normally this would be a slow clock and the digital PLL
-	// would be the fast clock.
 
 	always #12.5 clock <= (clock === 1'b0);
 
@@ -144,10 +138,8 @@ module pepe_tb;
 		$dumpfile("pepe.vcd");
 		$dumpvars(0, pepe_tb);
 
-		// Repeat cycles of 1000 clock edges as needed to complete testbench
 		repeat (25) begin
 			repeat (1000) @(posedge clock);
-			// $display("+1000 cycles");
 		end
 		$display("%c[1;31m",27);
 		`ifdef GL
@@ -160,10 +152,8 @@ module pepe_tb;
 	end
 
 	initial begin
-	    // Observe Output pins [7:0]
-
-		wait(mprj_io_0 == 8'h66);
-		$display("2 gonso MPRJ-IO state = %b ", mprj_io_0);
+		wait(mprj_io_gonso == 8'hFF);
+		$display("gonso MPRJ-IO state = %b ", mprj_io_gonso);
 		
 		`ifdef GL
 	    	$display("Monitor: Test 1 Mega-Project IO (GL) Passed");
@@ -195,10 +185,6 @@ module pepe_tb;
 		power3 <= 1'b1;
 		#100;
 		power4 <= 1'b1;
-	end
-
-	always @(mprj_io) begin
-		#1 $display("MPRJ-IO state = %b ", mprj_io[7:0]);
 	end
 
 	wire flash_csb;
