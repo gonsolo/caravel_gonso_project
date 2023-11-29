@@ -100,19 +100,25 @@ module user_proj_example #(
     assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
     assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    counter #(
-        .BITS(BITS)
-    ) counter(
-        .clk(clk),
-        .reset(rst),
-        .ready(wbs_ack_o),
-        .valid(valid),
-        .rdata(rdata),
-        .wdata(wbs_dat_i[BITS-1:0]),
-        .wstrb(wstrb),
-        .la_write(la_write),
-        .la_input(la_data_in[63:64-BITS]),
-        .count(count)
+    //counter #(
+    //    .BITS(BITS)
+    //) counter(
+    //    .clk(clk),
+    //    .reset(rst),
+    //    .ready(wbs_ack_o),
+    //    .valid(valid),
+    //    .rdata(rdata),
+    //    .wdata(wbs_dat_i[BITS-1:0]),
+    //    .wstrb(wstrb),
+    //    .la_write(la_write),
+    //    .la_input(la_data_in[63:64-BITS]),
+    //    .count(count)
+    //);
+
+    Diffuse diffuse(
+	.clock(clk),
+	.reset(rst),
+	.output_bits_out(count)
     );
 
 endmodule
