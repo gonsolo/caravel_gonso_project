@@ -109,13 +109,16 @@ module user_proj_example #(
         .reset(rst),
         .ready(wbs_ack_o),
         .valid(valid),
-        .rdata(rdata),
-        .wdata(wbs_dat_i[BITS-1:0]),
-        .wstrb(wstrb),
-        .la_write(la_write),
-        .la_input(la_data_in[63:64-BITS]),
+        //.rdata(rdata),
+        //.wdata(wbs_dat_i[BITS-1:0]),
+        //.wstrb(wstrb),
+        //.la_write(la_write),
+        //.la_input(la_data_in[63:64-BITS]),
         .count(count)
     );
+
+    // gonzo dummies
+    assign rdata = 1;
 
     //Diffuse diffuse(
     //    .clock(clk),
@@ -131,12 +134,12 @@ module counter #(
     input clk,
     input reset,
     input valid,
-    input [3:0] wstrb,
-    input [BITS-1:0] wdata,
-    input [BITS-1:0] la_write,
-    input [BITS-1:0] la_input,
+    //input [3:0] wstrb,
+    //input [BITS-1:0] wdata,
+    //input [BITS-1:0] la_write,
+    //input [BITS-1:0] la_input,
     output reg ready,
-    output reg [BITS-1:0] rdata,
+    //output reg [BITS-1:0] rdata,
     output reg [BITS-1:0] count
 );
 
@@ -146,41 +149,21 @@ module counter #(
             ready <= 1'b0;
         end else begin
             ready <= 1'b0;
-            if (~|la_write) begin
-                count <= count + 1'b1;
-            end
+            //if (~|la_write) begin
+            //    count <= count + 1'b1;
+            //end
+	    count <= 8'h12;
             if (valid && !ready) begin
                 ready <= 1'b1;
-                rdata <= count;
-                if (wstrb[0]) count[7:0]   <= wdata[7:0];
-                if (wstrb[1]) count[15:8]  <= wdata[15:8];
-            end else if (|la_write) begin
-                count <= la_write & la_input;
+                //rdata <= count;
+                //if (wstrb[0]) count[7:0]   <= wdata[7:0];
+                //if (wstrb[1]) count[15:8]  <= wdata[15:8];
+	    //end else if (|la_write) begin
+            //    count <= la_write & la_input;
             end
         end
     end
 
 endmodule
 
-
-//module counter #(
-//    parameter BITS = 16
-//)(
-//    input clk,
-//    input reset,
-//    input valid,
-//    input [3:0] wstrb,
-//    input [BITS-1:0] wdata,
-//    input [BITS-1:0] la_write,
-//    input [BITS-1:0] la_input,
-//    output reg ready,
-//    output reg [BITS-1:0] rdata,
-//    output reg [BITS-1:0] count
-//);
-//
-//    always @(posedge clk) begin
-//	count <= 8'hFF;
-//    end
-//
-//endmodule
 `default_nettype wire
