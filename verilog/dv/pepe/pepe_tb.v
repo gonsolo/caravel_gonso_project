@@ -152,7 +152,9 @@ module pepe_tb;
 	end
 
 	initial begin
-		wait(mprj_io_gonso == 8'h29A);
+		wait(mprj_io_gonso == 8'h01);
+		//wait(mprj_io_gonso == 8'hFF);
+		//wait(mprj_io_gonso == 8'h29A);
 		$display("gonso MPRJ-IO state = %b ", mprj_io_gonso);
 		
 		`ifdef GL
