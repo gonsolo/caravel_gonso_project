@@ -1,9 +1,0 @@
-CARAVEL_ROOT: /home/gonsolo/work/caravel/gonso/caravel
-MCW_ROOT: /home/gonsolo/work/caravel/gonso/mgmt_core_wrapper
-PDK: sky130A
-PDK_ROOT: /home/gonsolo/work/caravel/gonso/dependencies/pdks
-USER_PROJECT_ROOT: /home/gonsolo/work/caravel/gonso
-caravan: false
-clk: 25
-emailto:
-- null
