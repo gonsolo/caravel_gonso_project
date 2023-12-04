@@ -458,20 +458,15 @@ module gonsolo #(
     assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
     assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    counter #(
-        .BITS(BITS)
-    ) counter(
-        .clk(clk),
-        .reset(rst),
-        .ready(wbs_ack_o),
-        .valid(valid),
-        //.rdata(rdata),
-        //.wdata(wbs_dat_i[BITS-1:0]),
-        //.wstrb(wstrb),
-        //.la_write(la_write),
-        //.la_input(la_data_in[63:64-BITS]),
-        .count(count)
-    );
+    //counter #(
+    //    .BITS(BITS)
+    //) counter(
+    //    .clk(clk),
+    //    .reset(rst),
+    //    .ready(wbs_ack_o),
+    //    .valid(valid),
+    //    .count(count)
+    //);
 
     // dummies
     assign rdata = 1;
@@ -480,7 +475,8 @@ module gonsolo #(
     wire output_ready;
     assign output_ready = 1;
     wire [31:0] input_bits_reflectance;
-    assign input_bits_reflectance = 1;
+    //assign input_bits_reflectance = 1065353216; // 32 bit float   1.f as uint32
+    assign input_bits_reflectance = 3255042048; // 32 bit float -33.f as uint32
     wire input_valid;
     assign input_valid = 1;
     wire input_ready;
@@ -496,13 +492,15 @@ module gonsolo #(
     Diffuse diffuse(
         .clock(clk),
         .reset(rst),
-        .output_ready(output_ready),
-        .input_bits_reflectance(input_bits_reflectance),
         .input_valid(input_valid),
         .input_ready(input_ready),
+        .input_bits_reflectance(input_bits_reflectance),
         .output_valid(output_valid),
+        .output_ready(output_ready),
         .output_bits_out(output_bits_out)
     );
+
+    assign count = output_bits_out[15:0];
 
 endmodule
 

@@ -142,6 +142,7 @@ module pepe_tb;
 			repeat (1000) @(posedge clock);
 		end
 		$display("%c[1;31m",27);
+
 		`ifdef GL
 			$display ("Monitor: Timeout, Test Mega-Project IO Ports (GL) Failed");
 		`else
@@ -152,7 +153,10 @@ module pepe_tb;
 	end
 
 	initial begin
-		wait(mprj_io_gonso == 8'h12);
+		//wait(mprj_io_gonso == 8'h12);
+		//wait(mprj_io_gonso == 8'h83); // The lower 8 bits of 1.f / pi
+		wait(mprj_io_gonso == 8'h4f); // The lower 8 bits of -33.f / pi
+		//wait(mprj_io_gonso == 16'hf983);
 		//wait(mprj_io_gonso == 8'hFF);
 		//wait(mprj_io_gonso == 8'h29A);
 		$display("gonso MPRJ-IO state = %b ", mprj_io_gonso);
@@ -244,3 +248,37 @@ module pepe_tb;
 
 endmodule
 `default_nettype wire
+
+// The following C++ program is used to get the bit representation of 32 bit
+// floats and the lowest 8 bits.
+//
+//#include <bitset>
+//#include <cstdint>
+//#include <iostream>
+//#include <numbers>
+//
+//using namespace std;
+//
+//auto main() -> int
+//{
+//        union ufloat {
+//                float f;
+//                uint32_t i;
+//        } uf;
+//
+//        float input = -33.f;
+//        uf.f = input;
+//        cout << "Input: " << input << endl;
+//        cout << std::bitset<32>(uf.i) << endl;
+//        cout << "32 bit float input " << input << " as uint32: " << uf.i << endl;
+//
+//        float pi = numbers::pi_v<float>;
+//        float result = input / pi;
+//        uf.f = result;
+//
+//        uint8_t i8 = uf.i;
+//        cout << std::bitset<32>(uf.i) << endl;
+//        cout << "                        " << std::bitset<8>(i8) << endl;
+//        cout << "The lowest 8 bits of 1.f / pi as uint8: " << hex << (int)i8 << endl;
+//}
+
