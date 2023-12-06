@@ -458,18 +458,9 @@ module gonsolo #(
     assign clk = (~la_oenb[64]) ? la_data_in[64]: wb_clk_i;
     assign rst = (~la_oenb[65]) ? la_data_in[65]: wb_rst_i;
 
-    //counter #(
-    //    .BITS(BITS)
-    //) counter(
-    //    .clk(clk),
-    //    .reset(rst),
-    //    .ready(wbs_ack_o),
-    //    .valid(valid),
-    //    .count(count)
-    //);
-
     // dummies
     assign rdata = 1;
+    assign wbs_ack_o = 1;
 
     // diffuse dummies
     wire output_ready;
