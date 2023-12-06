@@ -89,9 +89,6 @@ ifeq ($(PDK),gf180mcuD)
 
 endif
 
-#gonsolo:
-#	make verify-pepe-rtl
-
 # Include Caravel Makefile Targets
 .PHONY: % : check-caravel
 %:
