@@ -153,12 +153,8 @@ module pepe_tb;
 	end
 
 	initial begin
-		//wait(mprj_io_gonso == 8'h12);
 		//wait(mprj_io_gonso == 8'h83); // The lower 8 bits of 1.f / pi
 		wait(mprj_io_gonso == 8'h4f); // The lower 8 bits of -33.f / pi
-		//wait(mprj_io_gonso == 16'hf983);
-		//wait(mprj_io_gonso == 8'hFF);
-		//wait(mprj_io_gonso == 8'h29A);
 		$display("gonso MPRJ-IO state = %b ", mprj_io_gonso);
 		
 		`ifdef GL
